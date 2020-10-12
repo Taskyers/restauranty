@@ -12,9 +12,13 @@
 	</parent>
 
 	<groupId>pl.taskyers</groupId>
-	<artifactId>restauranty</artifactId>
+	<artifactId>restauranty-multimodule</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<modules>
+		<module>restauranty-war</module>
+	</modules>
 
 	<properties>
 		<java.version>11</java.version>
