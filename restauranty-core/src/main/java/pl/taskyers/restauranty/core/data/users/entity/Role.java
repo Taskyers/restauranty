@@ -8,6 +8,7 @@ import pl.taskyers.restauranty.core.data.users.enums.RoleType;
 import javax.persistence.*;
 import java.io.Serializable;
 
+/*sd*/
 @Entity
 @Data
 @AllArgsConstructor
