@@ -17,6 +17,9 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>restauranty-core</module>
+		<module>restauranty-auth</module>
+		<module>restauranty-repository</module>
 		<module>restauranty-war</module>
 	</modules>
 
