@@ -20,6 +20,9 @@
 		<module>restauranty-core</module>
 		<module>restauranty-auth</module>
 		<module>restauranty-repository</module>
+		<module>restauranty-service</module>
+		<module>restauranty-service-impl</module>
+		<module>restauranty-web</module>
 		<module>restauranty-war</module>
 	</modules>
 
