@@ -1,9 +1,9 @@
 package pl.taskyers.restauranty.repository.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import pl.taskyers.restauranty.core.data.users.entity.UserAdmin;
+import org.springframework.data.repository.NoRepositoryBean;
 import pl.taskyers.restauranty.core.data.users.entity.UserBase;
+import pl.taskyers.restauranty.core.data.users.entity.UserAdmin;
 import pl.taskyers.restauranty.core.data.users.entity.UserClient;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 
@@ -13,15 +13,17 @@ import java.util.Optional;
 /**
  * Base repository for User classes:
  * <ul>
+ *     <li>{@link UserBase}</li>
  *     <li>{@link UserAdmin}</li>
  *     <li>{@link UserClient}</li>
  *     <li>{@link UserRestaurant}</li>
  * </ul>
- * Explicit use in: {@link pl.taskyers.restauranty.auth}. Should not be use anywhere else. Instead use one of concrete implementations:
+ * Should not be use injected anywhere. Instead use one of concrete implementations:
  * <ul>
- *     <li>{@link AdminUserRepository}</li>
- *     <li>{@link ClientUserRepository}</li>
- *     <li>{@link RestaurantUserRepository}</li>
+ *     <li>{@link UserRepository}</li>
+ *     <li>{@link UserAdminRepository}</li>
+ *     <li>{@link UserClientRepository}</li>
+ *     <li>{@link UserRestaurantRepository}</li>
  * </ul>
  *
  * @param <T>  class that extends {@link UserBase}
@@ -29,8 +31,8 @@ import java.util.Optional;
  * @author Jakub Sildatk
  * @since 1.0.0
  */
-@Repository
-public interface UserBaseRepository<T extends UserBase, ID extends Serializable> extends JpaRepository<T, ID> {
+@NoRepositoryBean
+interface UserBaseRepository<T extends UserBase, ID extends Serializable> extends JpaRepository<T, ID> {
     
     Optional<T> findByUsername(String username);
     

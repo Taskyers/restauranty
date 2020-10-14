@@ -21,6 +21,25 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>it.ozimov</groupId>
+			<artifactId>spring-boot-email-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>pl.taskyers</groupId>
+			<artifactId>restauranty-email-service-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.taskyers</groupId>
+			<artifactId>restauranty-service-impl</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>pl.taskyers</groupId>
+			<artifactId>restauranty-web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>pl.taskyers</groupId>
 			<artifactId>restauranty-repository</artifactId>
 			<version>${project.version}</version>
@@ -28,11 +47,6 @@
 		<dependency>
 			<groupId>pl.taskyers</groupId>
 			<artifactId>restauranty-auth</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>pl.taskyers</groupId>
-			<artifactId>restauranty-web</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
