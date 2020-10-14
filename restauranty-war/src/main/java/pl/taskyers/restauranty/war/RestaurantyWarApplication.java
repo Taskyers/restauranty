@@ -1,5 +1,6 @@
 package pl.taskyers.restauranty.war;
 
+import it.ozimov.springboot.mail.configuration.EnableEmailTools;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan(basePackages = "pl.taskyers.restauranty")
 @EnableJpaRepositories(basePackages = "pl.taskyers.restauranty.repository")
 @EntityScan(basePackages = "pl.taskyers.restauranty.core.data")
+@EnableEmailTools
 public class RestaurantyWarApplication {
     
     public static void main(String[] args) {

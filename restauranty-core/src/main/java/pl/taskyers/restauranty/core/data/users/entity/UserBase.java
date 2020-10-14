@@ -15,7 +15,7 @@ import java.io.Serializable;
  *     <li>{@link UserRestaurant}</li>
  * </ul>
  * Table <i>user</i> will be created and children tables will store reference. <br>
- * Explicit use in: {@link pl.taskyers.restauranty.auth}. Should not be use anywhere else.
+ * Should be used only when <i>main</i> user class is needed.
  */
 @Entity
 @Table(name = "user_base")

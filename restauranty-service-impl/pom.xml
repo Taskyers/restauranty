@@ -9,10 +9,10 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>service-impl</artifactId>
+	<artifactId>restauranty-service-impl</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>service-impl</name>
+	<name>restauranty-service-impl</name>
 	<description>Service implementation module for restauranty application</description>
 
 	<dependencies>
@@ -30,6 +30,14 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>pl.taskyers</groupId>
 			<artifactId>restauranty-core</artifactId>
 			<version>${project.version}</version>
@@ -45,9 +53,11 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
+			<groupId>pl.taskyers</groupId>
+			<artifactId>restauranty-email-service</artifactId>
+			<version>${project.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
@@ -59,8 +69,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

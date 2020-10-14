@@ -74,7 +74,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/register/**")
+                .antMatchers("/login", "/register/**", "/recovery/**")
                 .permitAll()
                 .antMatchers("/admin/**")
                 .hasRole("ADMIN")
