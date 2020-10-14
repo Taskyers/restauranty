@@ -30,6 +30,11 @@
 			<artifactId>restauranty-auth</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>pl.taskyers</groupId>
+			<artifactId>restauranty-web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

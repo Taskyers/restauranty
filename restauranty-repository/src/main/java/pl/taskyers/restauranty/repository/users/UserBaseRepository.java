@@ -2,12 +2,13 @@ package pl.taskyers.restauranty.repository.users;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import pl.taskyers.restauranty.core.data.users.entity.UserBase;
 import pl.taskyers.restauranty.core.data.users.entity.UserAdmin;
+import pl.taskyers.restauranty.core.data.users.entity.UserBase;
 import pl.taskyers.restauranty.core.data.users.entity.UserClient;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 /**
  * Base repository for User classes:
@@ -31,6 +32,8 @@ import java.io.Serializable;
 @Repository
 public interface UserBaseRepository<T extends UserBase, ID extends Serializable> extends JpaRepository<T, ID> {
     
-    T findByUsername(String username);
+    Optional<T> findByUsername(String username);
+    
+    Optional<T> findByEmail(String email);
     
 }
