@@ -22,4 +22,9 @@ public interface SecurityConstants {
      */
     String HEADER_STRING = "Authorization";
     
+    /**
+     * Header containing granted role
+     */
+    String HEADER_ROLE = "Granted-Role";
+    
 }
