@@ -14,6 +14,12 @@ public class ValidationUtils {
     
     private final Pattern NAME_PATTERN = Pattern.compile("^[A-Z][a-z]*$");
     
+    private final Pattern COUNTRY_PATTERN = Pattern.compile("^[A-Z][a-z]+( [A-Z][a-z]+)*$");
+    
+    private final Pattern PHONE_NUMBER_PATTERN = Pattern.compile("^\\d{9}$");
+    
+    private final Pattern ZIP_CODE_PATTERN = Pattern.compile("^(?:\\d{5}(?:[-]\\d{4})?|\\d{2}[-]\\d{3})$");
+    
     public boolean isUserEmailValid(String email) {
         return EMAIL_PATTERN.matcher(email)
                 .matches();
@@ -26,6 +32,21 @@ public class ValidationUtils {
     
     public boolean isUserNameValid(String name) {
         return NAME_PATTERN.matcher(name)
+                .matches();
+    }
+    
+    public boolean isCountryNameValid(String countryName) {
+        return COUNTRY_PATTERN.matcher(countryName)
+                .matches();
+    }
+    
+    public boolean isPhoneNumberValid(String phoneNumber) {
+        return PHONE_NUMBER_PATTERN.matcher(phoneNumber)
+                .matches();
+    }
+    
+    public boolean isZipCodeValid(String zipCode) {
+        return ZIP_CODE_PATTERN.matcher(zipCode)
                 .matches();
     }
     
