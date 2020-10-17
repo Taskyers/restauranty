@@ -9,8 +9,8 @@ import pl.taskyers.restauranty.core.messages.container.ValidationMessageContaine
 import pl.taskyers.restauranty.core.utils.ValidationUtils;
 import pl.taskyers.restauranty.repository.users.UserRepository;
 
-import static pl.taskyers.restauranty.core.messages.enums.MessageCode.*;
 import static pl.taskyers.restauranty.core.messages.MessageProvider.getMessage;
+import static pl.taskyers.restauranty.core.messages.enums.MessageCode.*;
 
 @Component
 @RequiredArgsConstructor
@@ -36,6 +36,8 @@ public class RegistrationValidator {
     private void validateUsername(String username, ValidationMessageContainer validationMessageContainer) {
         if ( StringUtils.isBlank(username) ) {
             validationMessageContainer.addError(getMessage(FIELD_EMPTY, "Username"), FIELD_USERNAME);
+        } else if ( !ValidationUtils.isUserNameValid(username) ) {
+            validationMessageContainer.addError(getMessage(FIELD_INVALID_FORMAT, "username"), FIELD_USERNAME);
         } else if ( userRepository.findByUsername(username)
                 .isPresent() ) {
             String message = getMessage(ACCOUNT_WITH_FIELD_EXISTS, username, "username");
