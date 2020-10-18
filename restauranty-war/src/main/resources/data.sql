@@ -32,3 +32,11 @@ values (4);
 /* TOKENS */
 insert into public.password_recovery_token(token, "user")
 values ('token-test', 4);
+
+/* ADDRESSES */
+insert into public.address(street, zip_code, city, country)
+values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
+
+/* RESTAURANTS */
+insert into public.restaurant(name, address, phone_number)
+values ('Burgerownia', 1, 123123123);
