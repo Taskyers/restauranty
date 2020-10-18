@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "addresses")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Address {
+public class Address implements Serializable {
+    
+    private static final long serialVersionUID = 861451049938002770L;
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
