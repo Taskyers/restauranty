@@ -10,6 +10,8 @@ import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
 @NoArgsConstructor
 public class RestaurantDTO {
     
+    private Long id;
+    
     private String name;
     
     private AddressDTO address;

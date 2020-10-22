@@ -28,17 +28,17 @@ public class RestaurantDTOValidator {
     
     private final AddressDTOValidator addressDTOValidator;
     
-    public ValidationMessageContainer validate(RestaurantDTO restaurantDTO) {
+    public ValidationMessageContainer validate(RestaurantDTO restaurantDTO, boolean checkForDuplicates) {
         final ValidationMessageContainer validationMessageContainer = addressDTOValidator.validate(restaurantDTO.getAddress());
-        validateName(restaurantDTO.getName(), validationMessageContainer);
-        validatePhoneNumber(restaurantDTO.getPhoneNumber(), validationMessageContainer);
+        validateName(restaurantDTO.getName(), validationMessageContainer, checkForDuplicates);
+        validatePhoneNumber(restaurantDTO.getPhoneNumber(), validationMessageContainer, checkForDuplicates);
         return validationMessageContainer;
     }
     
-    private void validateName(String name, ValidationMessageContainer validationMessageContainer) {
+    private void validateName(String name, ValidationMessageContainer validationMessageContainer, boolean checkForDuplicates) {
         if ( StringUtils.isBlank(name) ) {
             validationMessageContainer.addError(getMessage(FIELD_EMPTY, "Name"), FIELD_NAME);
-        } else if ( restaurantRepository.findByName(name)
+        } else if ( checkForDuplicates && restaurantRepository.findByName(name)
                 .isPresent() ) {
             String message = getMessage(RESTAURANT_WITH_FIELD_EXISTS, name, "name");
             validationMessageContainer.addError(message, FIELD_NAME);
@@ -46,12 +46,12 @@ public class RestaurantDTOValidator {
         }
     }
     
-    private void validatePhoneNumber(String phoneNumber, ValidationMessageContainer validationMessageContainer) {
+    private void validatePhoneNumber(String phoneNumber, ValidationMessageContainer validationMessageContainer, boolean checkForDuplicates) {
         if ( StringUtils.isBlank(phoneNumber) ) {
             validationMessageContainer.addError(getMessage(FIELD_EMPTY, "Phone Number"), FIELD_PHONE_NUMBER);
         } else if ( !ValidationUtils.isPhoneNumberValid(phoneNumber) ) {
             validationMessageContainer.addError(getMessage(FIELD_INVALID_FORMAT, "phoneNumber"), FIELD_PHONE_NUMBER);
-        } else if ( restaurantRepository.findByPhoneNumber(phoneNumber)
+        } else if ( checkForDuplicates && restaurantRepository.findByPhoneNumber(phoneNumber)
                 .isPresent() ) {
             String message = getMessage(RESTAURANT_WITH_FIELD_EXISTS, phoneNumber, "phoneNumber");
             validationMessageContainer.addError(message, FIELD_PHONE_NUMBER);

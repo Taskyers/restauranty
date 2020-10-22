@@ -26,7 +26,7 @@ values (3);
 insert into public.user_base(role, username, password, email)
 values (3, 'restaurant-test', '$2a$10$0k1y57DwGGZ8iKY5jpd6fum./qxDxq24lGsi8ChagpXgEHHVV0V6W',
         'restaurant-test@email.com');
-insert into public.user_restaurant
+insert into public.user_restaurant(id)
 values (4);
 
 /* TOKENS */
@@ -38,5 +38,5 @@ insert into public.address(street, zip_code, city, country)
 values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 
 /* RESTAURANTS */
-insert into public.restaurant(name, address, phone_number)
-values ('Burgerownia', 1, 123123123);
+insert into public.restaurant(name, address, phone_number, owner)
+values ('Burgerownia', 1, 123123123,4);
