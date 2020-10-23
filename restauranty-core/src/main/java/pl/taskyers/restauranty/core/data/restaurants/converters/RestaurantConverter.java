@@ -6,6 +6,9 @@ import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @UtilityClass
 public class RestaurantConverter {
     
@@ -30,7 +33,15 @@ public class RestaurantConverter {
         addressDTO.setCity(restaurantAddress.getCity());
         addressDTO.setCountry(restaurantAddress.getCountry());
         addressDTO.setZipCode(restaurantAddress.getZipCode());
-        return new RestaurantDTO(restaurant.getName(), addressDTO, restaurant.getPhoneNumber());
+        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), addressDTO, restaurant.getPhoneNumber());
+    }
+    
+    public List<RestaurantDTO> convertToDTOList(List<Restaurant> restaurants) {
+        List<RestaurantDTO> restaurantDTOS = new ArrayList<>();
+        for ( Restaurant restaurant : restaurants ) {
+            restaurantDTOS.add(convertToDTO(restaurant));
+        }
+        return restaurantDTOS;
     }
     
 }

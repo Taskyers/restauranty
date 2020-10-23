@@ -1,10 +1,10 @@
 package pl.taskyers.restauranty.core.data.restaurants.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
+import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,8 +26,11 @@ public class Restaurant implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
     
-    @ManyToOne(targetEntity = Address.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Address.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(nullable = false, name = "address")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
     private Address address;
     
     @OneToMany(targetEntity = RestaurantImage.class, mappedBy = "restaurant", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
@@ -36,5 +39,9 @@ public class Restaurant implements Serializable {
     
     @Column(name = "phone_number", nullable = false, unique = true, length = 9)
     private String phoneNumber;
+    
+    @ManyToOne(targetEntity = UserRestaurant.class)
+    @JoinColumn(name = "owner")
+    private UserRestaurant owner;
     
 }

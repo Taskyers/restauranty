@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.taskyers.restauranty.core.error.exceptions.BadRequestException;
+import pl.taskyers.restauranty.core.error.exceptions.ForbiddenException;
 import pl.taskyers.restauranty.core.error.exceptions.NotFoundException;
 import pl.taskyers.restauranty.core.error.exceptions.ServerErrorException;
 import pl.taskyers.restauranty.core.messages.Message;
@@ -31,6 +32,12 @@ public class RestExceptionHandler {
     @ExceptionHandler(value = ServerErrorException.class)
     public ResponseEntity<ResponseMessage<String>> handleServerErrorException(ServerErrorException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ResponseMessage<>(e.getBasicMessage(), MessageType.ERROR, e.getMessage()));
+    }
+    
+    @ExceptionHandler(value = ForbiddenException.class)
+    public ResponseEntity<ResponseMessage<String>> handleForbiddenException(ForbiddenException e) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ResponseMessage<>(e.getBasicMessage(), MessageType.ERROR, e.getMessage()));
     }
     
