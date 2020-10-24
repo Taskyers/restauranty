@@ -22,6 +22,14 @@ public interface MessageCode {
         
         String RESTAURANT_CREATED = "Restaurant has been created";
         
+        String RESTAURANT_NOT_FOUND = "Restaurant with id {0} was not found";
+        
+        String RESTAURANT_NOT_YOURS = "Restaurant with {0} {1} is not yours";
+    
+        String RESTAURANT_UPDATED = "Restaurant has been updated";
+    
+        String RESTAURANT_DELETED = "Restaurant has been deleted";
+        
     }
     
     interface PasswordRecovery {
