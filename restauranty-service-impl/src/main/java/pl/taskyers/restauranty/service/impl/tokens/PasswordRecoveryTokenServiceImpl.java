@@ -21,6 +21,12 @@ public class PasswordRecoveryTokenServiceImpl implements PasswordRecoveryTokenSe
     
     @Override
     public PasswordRecoveryToken createToken(final UserBase user) {
+        final PasswordRecoveryToken existingToken = passwordRecoveryTokenRepository.findByUser(user);
+        if ( existingToken != null ) {
+            log.debug("Updating existing token for user with id: {}", user.getId());
+            existingToken.setToken(generateToken());
+            return passwordRecoveryTokenRepository.save(existingToken);
+        }
         final PasswordRecoveryToken passwordRecoveryToken = new PasswordRecoveryToken();
         passwordRecoveryToken.setUser(user);
         passwordRecoveryToken.setToken(generateToken());

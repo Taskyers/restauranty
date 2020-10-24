@@ -49,6 +49,25 @@ public class PasswordRecoveryTokenServiceImplTest {
     }
     
     @Test
+    public void testUpdatingToken() {
+        // given
+        final UserBase user = new UserClient();
+        final PasswordRecoveryToken token = new PasswordRecoveryToken();
+        token.setUser(user);
+        when(passwordRecoveryTokenRepository.save(any(PasswordRecoveryToken.class))).thenAnswer(
+                invocationOnMock -> invocationOnMock.getArguments()[0]);
+        when(passwordRecoveryTokenRepository.findByUser(user)).thenReturn(token);
+        
+        // when
+        final PasswordRecoveryToken result = passwordRecoveryTokenService.createToken(user);
+        
+        // then
+        assertThat(result, notNullValue());
+        assertThat(result.getUser(), is(user));
+        assertThat(result.getToken(), isA(String.class));
+    }
+    
+    @Test
     public void testCreatingTokenWithDuplicate() {
         // given
         final UserBase user = new UserClient();
