@@ -63,7 +63,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant getRestaurant(@NonNull final Long id) {
         UserBase userBase = authProvider.getUserEntity();
         Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(
-                MessageProvider.getMessage(MessageCode.Restaurant.RESTAURANT_NOT_FOUND, id)));
+                MessageProvider.getMessage(MessageCode.Restaurant.RESTAURANT_NOT_FOUND, "id", id)));
         if ( !restaurant.getOwner().getUsername().equals(userBase.getUsername()) ) {
             throw new ForbiddenException(MessageProvider.getMessage(MessageCode.Restaurant.RESTAURANT_NOT_YOURS, "id", id));
         }
