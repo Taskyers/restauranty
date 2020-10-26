@@ -39,4 +39,9 @@ values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 
 /* RESTAURANTS */
 insert into public.restaurant(name, address, phone_number, owner)
-values ('Burgerownia', 1, 123123123,4);
+values ('Burgerownia', 1, 123123123, 4);
+
+/* REVIEWS */
+insert into public.review("user", restaurant, content, rate)
+values (1, 1, 'Test1', 'THREE'),
+       (1, 1, 'Test2', 'ONE');

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
+import pl.taskyers.restauranty.core.data.reviews.entity.Review;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 
 import javax.persistence.*;
@@ -36,6 +37,10 @@ public class Restaurant implements Serializable {
     @OneToMany(targetEntity = RestaurantImage.class, mappedBy = "restaurant", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REMOVE }, fetch = FetchType.LAZY)
     private Set<RestaurantImage> images = new HashSet<>();
+    
+    @OneToMany(targetEntity = Review.class, mappedBy = "restaurant", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    private Set<Review> reviews = new HashSet<>();
     
     @Column(name = "phone_number", nullable = false, unique = true, length = 9)
     private String phoneNumber;
