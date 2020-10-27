@@ -70,4 +70,14 @@ public class RestaurantController {
         return ResponseEntity.ok(new ResponseMessage<>(MessageCode.Restaurant.RESTAURANT_DELETED, MessageType.SUCCESS));
     }
     
+    @GetMapping(RestaurantService.GET_RESTAURANT_BY_NAME)
+    public boolean restaurantExistsByName(@PathVariable String name) {
+        return restaurantService.restaurantExistsByName(name);
+    }
+    
+    @GetMapping(RestaurantService.GET_RESTAURANT_BY_PHONE_NUMBER)
+    public boolean restaurantExistsByPhoneNumber(@PathVariable String phoneNumber) {
+        return restaurantService.restaurantExistsByPhoneNumber(phoneNumber);
+    }
+    
 }

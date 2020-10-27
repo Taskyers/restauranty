@@ -12,6 +12,10 @@ public interface RestaurantService {
     
     String GET_RESTAURANT_BY_ID = "/{id}";
     
+    String GET_RESTAURANT_BY_NAME = "/checkByName/{name}";
+    
+    String GET_RESTAURANT_BY_PHONE_NUMBER = "/checkByPhone/{phoneNumber}";
+    
     Restaurant addRestaurant(@NonNull RestaurantDTO restaurantDTO);
     
     Restaurant getRestaurant(@NonNull final Long id);
@@ -21,5 +25,9 @@ public interface RestaurantService {
     Restaurant editRestaurant(@NonNull final Long id, @NonNull RestaurantDTO restaurantDTO);
     
     void deleteRestaurant(@NonNull final Long id);
+    
+    boolean restaurantExistsByName(@NonNull final String name);
+    
+    boolean restaurantExistsByPhoneNumber(@NonNull final String phoneNumber);
     
 }
