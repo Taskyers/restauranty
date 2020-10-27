@@ -97,6 +97,16 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantRepository.deleteById(toDelete.getId());
     }
     
+    @Override
+    public boolean restaurantExistsByName(@NonNull String name) {
+        return restaurantRepository.findByName(name).isPresent();
+    }
+    
+    @Override
+    public boolean restaurantExistsByPhoneNumber(@NonNull String phoneNumber) {
+        return restaurantRepository.findByPhoneNumber(phoneNumber).isPresent();
+    }
+    
     private Restaurant updateRestaurantFields(Restaurant restaurant, RestaurantDTO restaurantDTO){
         restaurant.setName(restaurantDTO.getName());
         AddressDTO addressDTO = restaurantDTO.getAddress();
