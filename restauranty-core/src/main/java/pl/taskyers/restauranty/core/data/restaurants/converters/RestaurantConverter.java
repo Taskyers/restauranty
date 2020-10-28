@@ -5,14 +5,17 @@ import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
+import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class RestaurantConverter {
     
-    public Restaurant convertFromDTO(RestaurantDTO restaurantDTO) {
+    public Restaurant convertFromDTO(RestaurantDTO restaurantDTO, Set<Tag> tags) {
         Restaurant restaurant = new Restaurant();
         AddressDTO restaurantAddress = restaurantDTO.getAddress();
         Address address = new Address();
@@ -23,6 +26,7 @@ public class RestaurantConverter {
         restaurant.setName(restaurantDTO.getName());
         restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
         restaurant.setAddress(address);
+        restaurant.setTags(tags);
         return restaurant;
     }
     
@@ -33,7 +37,8 @@ public class RestaurantConverter {
         addressDTO.setCity(restaurantAddress.getCity());
         addressDTO.setCountry(restaurantAddress.getCountry());
         addressDTO.setZipCode(restaurantAddress.getZipCode());
-        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), addressDTO, restaurant.getPhoneNumber());
+        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), addressDTO, restaurant.getPhoneNumber(),
+                convertTags(restaurant.getTags()));
     }
     
     public List<RestaurantDTO> convertToDTOList(List<Restaurant> restaurants) {
@@ -42,6 +47,12 @@ public class RestaurantConverter {
             restaurantDTOS.add(convertToDTO(restaurant));
         }
         return restaurantDTOS;
+    }
+    
+    private Set<String> convertTags(Set<Tag> tags) {
+        return tags.stream()
+                .map(Tag::getValue)
+                .collect(Collectors.toSet());
     }
     
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
+import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
 import pl.taskyers.restauranty.core.data.reviews.entity.Review;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 
@@ -48,5 +49,8 @@ public class Restaurant implements Serializable {
     @ManyToOne(targetEntity = UserRestaurant.class)
     @JoinColumn(name = "owner")
     private UserRestaurant owner;
+    
+    @ManyToMany(targetEntity = Tag.class, fetch = FetchType.EAGER)
+    private Set<Tag> tags = new HashSet<>();
     
 }
