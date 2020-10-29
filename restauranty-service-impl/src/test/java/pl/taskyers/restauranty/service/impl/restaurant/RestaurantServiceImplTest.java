@@ -1,5 +1,6 @@
 package pl.taskyers.restauranty.service.impl.restaurant;
 
+import com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
@@ -17,10 +18,12 @@ import pl.taskyers.restauranty.service.auth.AuthProvider;
 import pl.taskyers.restauranty.service.impl.addresses.validator.AddressDTOValidator;
 import pl.taskyers.restauranty.service.impl.restaurants.RestaurantServiceImpl;
 import pl.taskyers.restauranty.service.impl.restaurants.validator.RestaurantDTOValidator;
+import pl.taskyers.restauranty.service.tags.TagService;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -43,6 +46,8 @@ public class RestaurantServiceImplTest {
     
     private static final Long ID = 1L;
     
+    private static final Set<String> TAGS = Sets.newHashSet("tag");
+    
     private RestaurantServiceImpl restaurantService;
     
     private RestaurantDTOValidator restaurantDTOValidator;
@@ -57,19 +62,20 @@ public class RestaurantServiceImplTest {
     
     @BeforeEach
     public void setUp() {
+        TagService tagService = mock(TagService.class);
         restaurantRepository = mock(RestaurantRepository.class);
         addressRepository = mock(AddressRepository.class);
         authProvider = mock(AuthProvider.class);
         addressDTOValidator = new AddressDTOValidator();
         restaurantDTOValidator = new RestaurantDTOValidator(restaurantRepository, addressDTOValidator);
-        restaurantService = new RestaurantServiceImpl(restaurantDTOValidator, restaurantRepository, addressRepository, authProvider);
+        restaurantService = new RestaurantServiceImpl(restaurantDTOValidator, restaurantRepository, addressRepository, authProvider, tagService);
     }
     
     @Test
     public void testAddingRestaurantWithBlankFields() {
         //given
         AddressDTO addressDTO = new AddressDTO("", "", "", "");
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", addressDTO, "");
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", addressDTO, "", TAGS);
         
         //when
         final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
@@ -85,7 +91,7 @@ public class RestaurantServiceImplTest {
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
         String existingName = "Test";
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, addressDTO, existingPhoneNumber);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, addressDTO, existingPhoneNumber, TAGS);
         when(restaurantRepository.findByName(existingName)).thenReturn(Optional.of(restaurant));
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
@@ -102,7 +108,7 @@ public class RestaurantServiceImplTest {
         Restaurant restaurant = new Restaurant();
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, INVALID_ZIP_CODE, INVALID_CITY_COUNTRY, INVALID_CITY_COUNTRY);
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", addressDTO, existingPhoneNumber);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", addressDTO, existingPhoneNumber, TAGS);
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
         //when
@@ -323,7 +329,7 @@ public class RestaurantServiceImplTest {
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
         String restaurantName = "Test";
         String restaurantPhoneNumber = "997998999";
-        return new RestaurantDTO(1L, restaurantName, addressDTO, restaurantPhoneNumber);
+        return new RestaurantDTO(1L, restaurantName, addressDTO, restaurantPhoneNumber, Sets.newHashSet("tag"));
     }
     
 }

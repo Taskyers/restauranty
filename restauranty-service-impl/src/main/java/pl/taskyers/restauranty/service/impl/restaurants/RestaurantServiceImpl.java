@@ -9,6 +9,7 @@ import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException
 import pl.taskyers.restauranty.core.data.restaurants.converters.RestaurantConverter;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
+import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
 import pl.taskyers.restauranty.core.data.users.entity.UserBase;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
 import pl.taskyers.restauranty.core.error.exceptions.ForbiddenException;
@@ -21,8 +22,10 @@ import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.auth.AuthProvider;
 import pl.taskyers.restauranty.service.impl.restaurants.validator.RestaurantDTOValidator;
 import pl.taskyers.restauranty.service.restaurants.RestaurantService;
+import pl.taskyers.restauranty.service.tags.TagService;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,8 @@ public class RestaurantServiceImpl implements RestaurantService {
     
     private final AuthProvider authProvider;
     
+    private final TagService tagService;
+    
     @Override
     public Restaurant addRestaurant(@NonNull RestaurantDTO restaurantDTO) {
         
@@ -44,7 +49,8 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new ValidationException(validationMessageContainer.getErrors());
         }
         
-        Restaurant toSave = RestaurantConverter.convertFromDTO(restaurantDTO);
+        final Set<Tag> tags = tagService.saveAllAndGet(restaurantDTO.getTags());
+        Restaurant toSave = RestaurantConverter.convertFromDTO(restaurantDTO, tags);
         Address restaurantAddress = toSave.getAddress();
         
         Address existingAddress = addressRepository.findByStreetAndZipCodeAndCityAndCountry(restaurantAddress.getStreet(),
@@ -85,8 +91,9 @@ public class RestaurantServiceImpl implements RestaurantService {
         if ( validationMessageContainer.hasErrors() ) {
             throw new ValidationException(validationMessageContainer.getErrors());
         }
+        final Set<Tag> tags = tagService.saveAllAndGet(restaurantDTO.getTags());
         Restaurant restaurant = getRestaurant(id);
-        restaurant = updateRestaurantFields(restaurant, restaurantDTO);
+        restaurant = updateRestaurantFields(restaurant, restaurantDTO, tags);
         
         return restaurantRepository.save(restaurant);
     }
@@ -107,7 +114,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findByPhoneNumber(phoneNumber).isPresent();
     }
     
-    private Restaurant updateRestaurantFields(Restaurant restaurant, RestaurantDTO restaurantDTO){
+    private Restaurant updateRestaurantFields(Restaurant restaurant, RestaurantDTO restaurantDTO, Set<Tag> tags){
         restaurant.setName(restaurantDTO.getName());
         AddressDTO addressDTO = restaurantDTO.getAddress();
         Address restaurantAddress = restaurant.getAddress();
@@ -117,6 +124,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurantAddress.setZipCode(addressDTO.getZipCode());
         restaurant.setAddress(restaurantAddress);
         restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
+        restaurant.setTags(tags);
         return restaurant;
     }
 }
