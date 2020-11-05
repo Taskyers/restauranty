@@ -16,4 +16,12 @@ public interface TagService {
      */
     Set<Tag> saveAllAndGet(@NonNull final Set<String> tags);
     
+    /**
+     * Get all tags from database as strings
+     *
+     * @return {@link Set} of tags
+     * @since 1.0.0
+     */
+    Set<String> getAll();
+    
 }
