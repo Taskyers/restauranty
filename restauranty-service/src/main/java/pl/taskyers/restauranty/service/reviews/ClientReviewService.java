@@ -14,6 +14,8 @@ public interface ClientReviewService {
     
     String BY_ID = "/{id}";
     
+    String BY_RESTAURANT = "/{restaurant}";
+    
     /**
      * Add review for restaurant
      *
