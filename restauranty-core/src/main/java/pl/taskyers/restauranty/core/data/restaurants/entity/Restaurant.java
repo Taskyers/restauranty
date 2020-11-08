@@ -17,6 +17,7 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Restaurant implements Serializable {
     
     private static final long serialVersionUID = 3399824192679467708L;

@@ -32,6 +32,12 @@ public class RestaurantReviewServiceImpl implements RestaurantReviewService {
     private final ReviewReportRepository reviewReportRepository;
     
     @Override
+    public boolean isAlreadyReported(@NonNull Review review) {
+        return reviewReportRepository.findByReview(review)
+                .isPresent();
+    }
+    
+    @Override
     public List<Review> getReviewsForRestaurant(@NonNull String restaurant) {
         return reviewRepository.findAllByRestaurantName(restaurant);
     }

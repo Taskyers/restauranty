@@ -39,4 +39,36 @@ public class EmailServiceImplTest {
         verify(externalService).send(email, EmailConstants.PasswordRecovery.TEMPLATE, model);
     }
     
+    @Test
+    public void testSendingPositiveReviewReport() throws Exception {
+        // given
+        final String user = "test";
+        final EmailAddresseeDTO emailAddresseeDTO = new EmailAddresseeDTO("test@email.com", "test", "test");
+        final Email email = emailService.createEmail(emailAddresseeDTO.getEmail(), emailAddresseeDTO.getName() + " " + emailAddresseeDTO.getSurname(),
+                EmailConstants.ReviewReport.SUBJECT);
+        final Map<String, Object> model = emailService.createModel("user", user);
+        
+        // when
+        emailService.sendEmailToSingleAddressee(emailAddresseeDTO, EmailType.REVIEW_REPORT_POSITIVE, user);
+        
+        // then
+        verify(externalService).send(email, EmailConstants.ReviewReport.POSITIVE_TEMPLATE, model);
+    }
+    
+    @Test
+    public void testSendingNegativeReviewReport() throws Exception {
+        // given
+        final String user = "test";
+        final EmailAddresseeDTO emailAddresseeDTO = new EmailAddresseeDTO("test@email.com", "test", "test");
+        final Email email = emailService.createEmail(emailAddresseeDTO.getEmail(), emailAddresseeDTO.getName() + " " + emailAddresseeDTO.getSurname(),
+                EmailConstants.ReviewReport.SUBJECT);
+        final Map<String, Object> model = emailService.createModel("user", user);
+        
+        // when
+        emailService.sendEmailToSingleAddressee(emailAddresseeDTO, EmailType.REVIEW_REPORT_NEGATIVE, user);
+        
+        // then
+        verify(externalService).send(email, EmailConstants.ReviewReport.NEGATIVE_TEMPLATE, model);
+    }
+    
 }

@@ -15,6 +15,15 @@ public interface RestaurantReviewService {
     String REPORT_REVIEW = "/report";
     
     /**
+     * Check if review is already reported
+     *
+     * @param review {@link Review}
+     * @return true if reviews is reported, otherwise false
+     * @since 1.0.0
+     */
+    boolean isAlreadyReported(@NonNull final Review review);
+    
+    /**
      * Get all {@link Review} for restaurant
      *
      * @param restaurant restaurant's name
@@ -23,6 +32,14 @@ public interface RestaurantReviewService {
      */
     List<Review> getReviewsForRestaurant(@NonNull final String restaurant);
     
+    /**
+     * Report review by id
+     *
+     * @param id             review's id
+     * @param restaurantName restaurant that reports review
+     * @return saved {@link ReviewReport}
+     * @since 1.0.0
+     */
     ReviewReport reportReview(@NonNull final Long id, @NonNull final String restaurantName);
     
 }

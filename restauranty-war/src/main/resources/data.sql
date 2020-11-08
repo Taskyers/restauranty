@@ -64,3 +64,8 @@ insert into public.review("user", restaurant, content, rate)
 values (2, 1, 'Test1', 'THREE'),
        (3, 1, 'Test2', 'FOUR'),
        (2, 2, 'Test3', 'TWO');
+
+/* REVIEW REPORTS */
+insert into public.review_report(restaurant, review)
+values (1, 1),
+       (1, 2);
