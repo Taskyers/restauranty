@@ -45,3 +45,14 @@ values ('Burgerownia', 1, 123123123, 4);
 insert into public.review("user", restaurant, content, rate)
 values (1, 1, 'Test1', 'THREE'),
        (1, 1, 'Test2', 'ONE');
+
+/* CHAT_ROOMS */
+insert into public.chat_room(client,restaurant)
+values (2,4),(3,4);
+/* CHAT MESSAGES */
+insert into public.chat_message(content,status,timestamp,author, chat_room, recipient)
+values ('Test client is sending message to restaurant','RECEIVED','2020-01-03'::timestamp,2,1,4),
+       ('Test restaurant is sending message to client','RECEIVED','2020-01-04'::timestamp,4,1,2),
+       ('Test recovery test is sending message to restaurant','RECEIVED','2020-01-04'::timestamp,3,2,4),
+        ('Test restaurant is sending message to recovery test','RECEIVED','2020-01-05'::timestamp,4,2,3),
+          ('Test recovery test is sending second message to restaurant','DELIVERED','2020-01-06'::timestamp,3,2,4);
