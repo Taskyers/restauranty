@@ -80,6 +80,12 @@ public interface MessageCode {
             
             String REPORT_SENT = "Report has been sent";
             
+            String REPORT_NOT_FOUND = "Review report with id {0} was not found";
+            
+            String REPORT_ACCEPTED = "Review report has been accepted";
+            
+            String REPORT_REJECTED = "Review report has been rejected";
+            
         }
         
     }

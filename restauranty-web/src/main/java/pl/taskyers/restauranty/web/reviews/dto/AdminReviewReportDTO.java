@@ -3,16 +3,14 @@ package pl.taskyers.restauranty.web.reviews.dto;
 import lombok.Value;
 
 @Value
-public class RestaurantReviewDTO {
+public class AdminReviewReportDTO {
     
-    long id;
-    
-    String content;
-    
-    int rate;
+    Long id;
     
     String user;
     
-    boolean isReported;
+    String content;
+    
+    String restaurant;
     
 }

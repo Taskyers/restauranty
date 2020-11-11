@@ -65,6 +65,11 @@ values (2, 1, 'Test1', 'THREE'),
        (3, 1, 'Test2', 'FOUR'),
        (2, 2, 'Test3', 'TWO');
 
+/* REVIEW REPORTS */
+insert into public.review_report(restaurant, review)
+values (1, 1),
+       (1, 2);
+
 /* CHAT_ROOMS */
 insert into public.chat_room(client,restaurant)
 values (2,4),(3,4);

@@ -37,6 +37,10 @@ public class EmailServiceImpl implements EmailService {
             @NonNull final String... data) {
         if ( emailType == EmailType.PASSWORD_RECOVERY ) {
             sendPasswordRecoveryEmail(emailAddresseeDTO, data[0]);
+        } else if ( emailType == EmailType.REVIEW_REPORT_POSITIVE ) {
+            sendPositiveReviewReportEmail(emailAddresseeDTO, data[0]);
+        } else if ( emailType == EmailType.REVIEW_REPORT_NEGATIVE ) {
+            sendNegativeReviewReportEmail(emailAddresseeDTO, data[0]);
         } else {
             log.warn(String.format("Email type: %s is not implemented. Message will not be sent", emailType.name()));
         }
@@ -48,6 +52,28 @@ public class EmailServiceImpl implements EmailService {
             final Email email = createEmail(emailAddresseeDTO.getEmail(), emailAddresseeDTO.getName() + " " + emailAddresseeDTO.getSurname(),
                     EmailConstants.PasswordRecovery.SUBJECT);
             emailService.send(email, EmailConstants.PasswordRecovery.TEMPLATE, model);
+        } catch ( UnsupportedEncodingException | CannotSendEmailException e ) {
+            log.error("Could not sent an email", e);
+        }
+    }
+    
+    private void sendPositiveReviewReportEmail(EmailAddresseeDTO emailAddresseeDTO, String user) {
+        try {
+            final Map<String, Object> model = createModel("user", user);
+            final Email email = createEmail(emailAddresseeDTO.getEmail(), emailAddresseeDTO.getName() + " " + emailAddresseeDTO.getSurname(),
+                    EmailConstants.ReviewReport.SUBJECT);
+            emailService.send(email, EmailConstants.ReviewReport.POSITIVE_TEMPLATE, model);
+        } catch ( UnsupportedEncodingException | CannotSendEmailException e ) {
+            log.error("Could not sent an email", e);
+        }
+    }
+    
+    private void sendNegativeReviewReportEmail(EmailAddresseeDTO emailAddresseeDTO, String user) {
+        try {
+            final Map<String, Object> model = createModel("user", user);
+            final Email email = createEmail(emailAddresseeDTO.getEmail(), emailAddresseeDTO.getName() + " " + emailAddresseeDTO.getSurname(),
+                    EmailConstants.ReviewReport.SUBJECT);
+            emailService.send(email, EmailConstants.ReviewReport.NEGATIVE_TEMPLATE, model);
         } catch ( UnsupportedEncodingException | CannotSendEmailException e ) {
             log.error("Could not sent an email", e);
         }
