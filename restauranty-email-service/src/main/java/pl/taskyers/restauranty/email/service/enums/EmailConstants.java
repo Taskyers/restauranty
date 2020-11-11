@@ -8,6 +8,16 @@ public interface EmailConstants {
     
     String ENCODING = "UTF-8";
     
+    interface ReviewReport {
+        
+        String SUBJECT = "Restauranty - review report result";
+        
+        String POSITIVE_TEMPLATE = "reviewReportPositive.ftl";
+        
+        String NEGATIVE_TEMPLATE = "reviewReportNegative.ftl";
+        
+    }
+    
     interface PasswordRecovery {
         
         String TEMPLATE = "passwordRecovery.ftl";

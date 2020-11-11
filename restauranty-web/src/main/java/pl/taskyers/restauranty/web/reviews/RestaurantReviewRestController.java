@@ -22,9 +22,11 @@ public class RestaurantReviewRestController {
     
     private final RestaurantReviewService restaurantReviewService;
     
+    private final RestaurantReviewDTOConverter restaurantReviewDTOConverter;
+    
     @GetMapping(RestaurantReviewService.BY_RESTAURANT)
     public ResponseEntity<List<RestaurantReviewDTO>> getAllReviewsForRestaurant(@PathVariable final String restaurant) {
-        return ResponseEntity.ok(RestaurantReviewDTOConverter.convertToDTOList(restaurantReviewService.getReviewsForRestaurant(restaurant)));
+        return ResponseEntity.ok(restaurantReviewDTOConverter.convertToDTOList(restaurantReviewService.getReviewsForRestaurant(restaurant)));
     }
     
     @PostMapping(RestaurantReviewService.REPORT_REVIEW)
