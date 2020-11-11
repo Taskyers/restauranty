@@ -41,6 +41,9 @@ public class Restaurant implements Serializable {
     
     @OneToMany(targetEntity = Review.class, mappedBy = "restaurant", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
     private Set<Review> reviews = new HashSet<>();
     
     @Column(name = "phone_number", nullable = false, unique = true, length = 9)

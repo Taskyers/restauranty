@@ -39,12 +39,31 @@ values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 
 /* RESTAURANTS */
 insert into public.restaurant(name, address, phone_number, owner)
-values ('Burgerownia', 1, 123123123, 4);
+values ('Burgerownia', 1, 123123123, 4),
+       ('Pizzeria', 1, 123321123, 4),
+       ('PizzerioBurgerownia', 1, 321123123, 4);
+
+/* TAGS */
+insert into public.tag(value)
+values ('burger'),
+       ('pizza'),
+       ('sushi'),
+       ('wege');
+insert into public.restaurant_tags(restaurant_id, tags_id)
+values (1, 1),
+       (2, 2),
+       (2, 3),
+       (2, 4),
+       (3, 1),
+       (3, 2),
+       (3, 3),
+       (3, 4);
 
 /* REVIEWS */
 insert into public.review("user", restaurant, content, rate)
-values (1, 1, 'Test1', 'THREE'),
-       (1, 1, 'Test2', 'ONE');
+values (2, 1, 'Test1', 'THREE'),
+       (3, 1, 'Test2', 'FOUR'),
+       (2, 2, 'Test3', 'TWO');
 
 /* CHAT_ROOMS */
 insert into public.chat_room(client,restaurant)

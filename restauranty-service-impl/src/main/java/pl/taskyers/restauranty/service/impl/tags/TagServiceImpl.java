@@ -10,6 +10,7 @@ import pl.taskyers.restauranty.repository.tags.TagRepository;
 import pl.taskyers.restauranty.service.tags.TagService;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,14 @@ public class TagServiceImpl implements TagService {
             }
         }
         return result;
+    }
+    
+    @Override
+    public Set<String> getAll() {
+        return tagRepository.findAll()
+                .stream()
+                .map(Tag::getValue)
+                .collect(Collectors.toSet());
     }
     
 }
