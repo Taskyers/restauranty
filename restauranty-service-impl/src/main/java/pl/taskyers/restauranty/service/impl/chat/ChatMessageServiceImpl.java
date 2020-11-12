@@ -75,7 +75,7 @@ public class ChatMessageServiceImpl implements ChatMessageService {
         
         List<ChatMessage> messages = getSortedChatMessages(userAuthor, userRecipient);
         
-        if ( messages.size() > 0 ) {
+        if ( !messages.isEmpty() ) {
             for ( ChatMessage message : messages ) {
                 message.setStatus(MessageStatus.DELIVERED);
                 chatMessageRepository.save(message);

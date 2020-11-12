@@ -7,7 +7,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.taskyers.restauranty.core.data.chat.dto.ChatMessageDTO;
 import pl.taskyers.restauranty.core.utils.DateUtils;
@@ -18,7 +17,6 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping()
 public class ChatMessageController {
     
     private final SimpMessagingTemplate messagingTemplate;

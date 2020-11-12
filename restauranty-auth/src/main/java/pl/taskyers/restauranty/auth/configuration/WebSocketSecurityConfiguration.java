@@ -15,7 +15,7 @@ public class WebSocketSecurityConfiguration extends AbstractSecurityWebSocketMes
     
     @Override
     protected void configureInbound(MessageSecurityMetadataSourceRegistry messages) {
-        messages.simpDestMatchers("/secured/**", "/secured/**/**", "/ws/**").authenticated().
+        messages.simpDestMatchers("/secured/**", "/ws/**").authenticated().
                 simpTypeMatchers(SimpMessageType.CONNECT,
                         SimpMessageType.DISCONNECT, SimpMessageType.OTHER).permitAll()
                 .anyMessage().authenticated();
