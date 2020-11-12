@@ -90,4 +90,22 @@ public interface MessageCode {
         
     }
     
+    interface ChatMessage {
+        
+        String AUTHOR_IS_NOT_YOU = "Chat message is not from you";
+        
+        String RECIPIENT_NOT_FOUND = "Chat message recipient with {0} {1} not found";
+    
+        String AUTHOR_NOT_FOUND = "Chat message author with {0} {1} not found";
+        
+        String WRONG_RECIPIENT = "You cannot sent message to this recipient";
+        
+    }
+    
+    interface ChatRoom {
+        
+        String CHAT_ROOM_NOT_FOUND = "There are no chat messages between {0} and {1}";
+        
+    }
+    
 }
