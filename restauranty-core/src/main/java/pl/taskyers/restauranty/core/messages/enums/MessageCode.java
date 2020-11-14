@@ -52,6 +52,10 @@ public interface MessageCode {
         
         String IMAGE_NOT_FOUND = "Image with {0} name was not found";
         
+        String MAIN_IMAGE_SET = "Image has been set as main";
+        
+        String MAIN_IMAGE_NOT_FOUND = "Restaurant {0} has no main image";
+        
         String ERROR_UPLOAD = "Error while uploading image";
         
         String ERROR_DOWNLOAD = "Error while downloading image";
@@ -95,7 +99,7 @@ public interface MessageCode {
         String AUTHOR_IS_NOT_YOU = "Chat message is not from you";
         
         String RECIPIENT_NOT_FOUND = "Chat message recipient with {0} {1} not found";
-    
+        
         String AUTHOR_NOT_FOUND = "Chat message author with {0} {1} not found";
         
         String WRONG_RECIPIENT = "You cannot sent message to this recipient";

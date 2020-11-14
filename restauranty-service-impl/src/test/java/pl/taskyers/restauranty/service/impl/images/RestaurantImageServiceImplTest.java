@@ -89,7 +89,7 @@ public class RestaurantImageServiceImplTest {
         
         // when
         final ValidationException result =
-                assertThrows(ValidationException.class, () -> restaurantImageService.saveImage(image, name));
+                assertThrows(ValidationException.class, () -> restaurantImageService.saveImage(image, name, false));
         
         // then
         assertThat(result.getMessages(), is(validationMessageContainer.getErrors()));
@@ -106,11 +106,37 @@ public class RestaurantImageServiceImplTest {
         when(restaurantImageRepository.save(any(RestaurantImage.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
         
         // when
-        final RestaurantImage result = restaurantImageService.saveImage(image, name);
+        final RestaurantImage result = restaurantImageService.saveImage(image, name, false);
         
         // then
         assertThat(result.getName(), is(name));
         assertThat(result.getType(), is(image.getContentType()));
+        assertThat(result.isMain(), is(false));
+        verify(imageStorageService).store(image);
+    }
+    
+    @Test
+    public void testSavingNewMainImage() {
+        // given
+        final String name = "asdf.png";
+        final MultipartFile image = new MockMultipartFile(name, name, "image/png", new byte[]{});
+        final Restaurant restaurant = new Restaurant();
+        final RestaurantImage mainImage = RestaurantImage.builder()
+                .main(true)
+                .build();
+        when(restaurantImageValidator.validate(image)).thenReturn(new ValidationMessageContainer());
+        when(restaurantRepository.findByName(name)).thenReturn(Optional.of(restaurant));
+        when(restaurantImageRepository.findByRestaurantAndMain(restaurant, true)).thenReturn(Optional.of(mainImage));
+        when(restaurantImageRepository.save(any(RestaurantImage.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+        
+        // when
+        final RestaurantImage result = restaurantImageService.saveImage(image, name, true);
+        
+        // then
+        assertThat(result.getName(), is(name));
+        assertThat(result.getType(), is(image.getContentType()));
+        assertThat(result.isMain(), is(true));
+        verify(restaurantImageRepository).save(mainImage);
         verify(imageStorageService).store(image);
     }
     
@@ -125,6 +151,33 @@ public class RestaurantImageServiceImplTest {
         
         // then
         assertThat(result.getMessage(), is(String.format("Image with %s name was not found", name)));
+    }
+    
+    @Test
+    public void testChangingMainImage() {
+        // given
+        final String name = "test.png";
+        final Restaurant restaurant = Restaurant.builder()
+                .name("test")
+                .build();
+        final RestaurantImage restaurantImage = RestaurantImage.builder()
+                .name(name)
+                .main(false)
+                .restaurant(restaurant)
+                .build();
+        final RestaurantImage mainImage = RestaurantImage.builder()
+                .main(true)
+                .build();
+        when(restaurantImageRepository.findByName(name)).thenReturn(Optional.of(restaurantImage));
+        when(restaurantImageRepository.findByRestaurantAndMain(restaurant, true)).thenReturn(Optional.of(mainImage));
+        when(restaurantImageRepository.save(any(RestaurantImage.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
+        
+        // when
+        final RestaurantImage result = restaurantImageService.setMainImage(name);
+        
+        // then
+        assertThat(result.isMain(), is(true));
+        verify(restaurantImageRepository).save(mainImage);
     }
     
     @Test

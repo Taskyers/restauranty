@@ -11,10 +11,14 @@ import java.util.Set;
 @UtilityClass
 public class ImageResponseDTOConverter {
     
-    public List<ImageResponseDTO> convertToDTO(Set<RestaurantImage> images) {
+    public ImageResponseDTO convertToDTO(RestaurantImage restaurantImage) {
+        return new ImageResponseDTO(restaurantImage.getName(), restaurantImage.getType(), restaurantImage.getSize(), restaurantImage.isMain());
+    }
+    
+    public List<ImageResponseDTO> convertToDTOList(Set<RestaurantImage> images) {
         final List<ImageResponseDTO> result = new ArrayList<>(images.size());
         for ( RestaurantImage restaurantImage : images ) {
-            result.add(new ImageResponseDTO(restaurantImage.getName(), restaurantImage.getType(), restaurantImage.getSize()));
+            result.add(convertToDTO(restaurantImage));
         }
         return result;
     }

@@ -2,6 +2,7 @@ package pl.taskyers.restauranty.service.impl.images;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RestaurantImageServiceImpl implements RestaurantImageService {
     
     private final RestaurantRepository restaurantRepository;
@@ -41,20 +43,26 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
     
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public RestaurantImage saveImage(@NonNull final MultipartFile image, @NonNull final String restaurantName) {
+    public RestaurantImage saveImage(@NonNull final MultipartFile image, @NonNull final String restaurantName, final boolean isMain) {
         final ValidationMessageContainer validationMessageContainer = restaurantImageValidator.validate(image);
         if ( validationMessageContainer.hasErrors() ) {
             throw new ValidationException(validationMessageContainer.getErrors());
         }
         
         final Restaurant restaurant = getRestaurant(restaurantName);
+        final String newImageName = image.getOriginalFilename();
+        if ( isMain ) {
+            changeMainImage(newImageName, restaurant);
+        }
+        
         final String path = imageStorageService.store(image);
         final RestaurantImage toSave = RestaurantImage.builder()
                 .restaurant(restaurant)
-                .name(image.getOriginalFilename())
+                .name(newImageName)
                 .type(image.getContentType())
                 .path(path)
                 .size(image.getSize())
+                .main(isMain)
                 .build();
         
         return restaurantImageRepository.save(toSave);
@@ -67,10 +75,29 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
     }
     
     @Override
+    public RestaurantImage setMainImage(@NonNull String name) throws ImageNotFoundException {
+        final RestaurantImage image = restaurantImageRepository.findByName(name)
+                .orElseThrow(() -> new ImageNotFoundException(MessageProvider.getMessage(MessageCode.Images.IMAGE_NOT_FOUND, name)));
+        changeMainImage(name, image.getRestaurant());
+        image.setMain(true);
+        return restaurantImageRepository.save(image);
+    }
+    
+    @Override
     public void deleteImage(@NonNull final String name) {
         final RestaurantImage image = getImage(name);
         restaurantImageRepository.deleteById(image.getId());
         imageStorageService.delete(name);
+    }
+    
+    private void changeMainImage(String newImageName, Restaurant restaurant) {
+        restaurantImageRepository.findByRestaurantAndMain(restaurant, true)
+                .map(restaurantImage -> {
+                    restaurantImage.setMain(false);
+                    restaurantImageRepository.save(restaurantImage);
+                    log.debug("Changed main image from: {} to {} for restaurant: {}", restaurantImage.getName(), newImageName, restaurant);
+                    return null;
+                });
     }
     
     private Restaurant getRestaurant(String name) {
