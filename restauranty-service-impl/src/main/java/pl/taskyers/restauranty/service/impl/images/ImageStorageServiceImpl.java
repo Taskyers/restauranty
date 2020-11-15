@@ -23,7 +23,7 @@ import java.nio.file.StandardCopyOption;
 @Slf4j
 public class ImageStorageServiceImpl implements ImageStorageService {
     
-    private static final String DIRECTORY = "C:\\Users\\Kubol\\Desktop\\workspace\\images";
+    private static final String DIRECTORY = "C:\\workspace\\images";
     
     private final Path storageLocation;
     

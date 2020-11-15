@@ -15,6 +15,7 @@ import pl.taskyers.restauranty.service.images.ImageStorageService;
 import pl.taskyers.restauranty.service.images.RestaurantImageService;
 import pl.taskyers.restauranty.web.images.converter.ImageResponseDTOConverter;
 import pl.taskyers.restauranty.web.images.dto.ImageResponseDTO;
+import pl.taskyers.restauranty.web.util.UriUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +32,7 @@ public class RestaurantImageRestController {
     @GetMapping(RestaurantImageService.BY_RESTAURANT)
     public ResponseEntity<List<ImageResponseDTO>> getImagesForRestaurant(@PathVariable final String restaurant) {
         final Set<RestaurantImage> images = restaurantImageService.getAllForRestaurant(restaurant);
-        return ResponseEntity.ok(ImageResponseDTOConverter.convertToDTO(images));
+        return ResponseEntity.ok(ImageResponseDTOConverter.convertToDTOList(images));
     }
     
     @GetMapping(RestaurantImageService.GET_BY_NAME)
@@ -44,12 +45,21 @@ public class RestaurantImageRestController {
                 .body(image);
     }
     
-    @PostMapping(RestaurantImageService.BY_RESTAURANT)
+    @PostMapping
     public ResponseEntity<ResponseMessage<ImageResponseDTO>> uploadImage(@RequestParam final MultipartFile image,
-            @PathVariable final String restaurant) {
-        final RestaurantImage restaurantImage = restaurantImageService.saveImage(image, restaurant);
-        return ResponseEntity.ok(new ResponseMessage<>(MessageCode.Images.IMAGE_UPLOADED, MessageType.SUCCESS,
-                new ImageResponseDTO(restaurantImage.getName(), restaurantImage.getType(), restaurantImage.getSize())));
+            @RequestParam final String restaurant, @RequestParam final boolean isMain) {
+        final RestaurantImage restaurantImage = restaurantImageService.saveImage(image, restaurant, isMain);
+        return ResponseEntity.created(UriUtils.createURIFromId(restaurantImage.getId()))
+                .body(
+                        new ResponseMessage<>(MessageCode.Images.IMAGE_UPLOADED, MessageType.SUCCESS,
+                                new ImageResponseDTO(restaurantImage.getName(), restaurantImage.getType(), restaurantImage.getSize(),
+                                        restaurantImage.isMain())));
+    }
+    
+    @PatchMapping(RestaurantImageService.BY_NAME)
+    public ResponseEntity<ResponseMessage<String>> setMainImage(@PathVariable final String name) {
+        restaurantImageService.setMainImage(name);
+        return ResponseEntity.ok(new ResponseMessage<>(MessageCode.Images.MAIN_IMAGE_SET, MessageType.SUCCESS));
     }
     
     @DeleteMapping(RestaurantImageService.BY_NAME)

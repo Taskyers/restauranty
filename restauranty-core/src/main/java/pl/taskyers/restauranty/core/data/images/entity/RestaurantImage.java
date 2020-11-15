@@ -26,6 +26,9 @@ public class RestaurantImage implements Serializable {
     @EqualsAndHashCode.Exclude
     private Restaurant restaurant;
     
+    @Column(columnDefinition = "boolean default false")
+    private boolean main;
+    
     @Column(nullable = false, unique = true)
     private String name;
     

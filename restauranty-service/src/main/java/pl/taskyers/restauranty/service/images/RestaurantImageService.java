@@ -34,6 +34,7 @@ public interface RestaurantImageService {
      *
      * @param image          {@link MultipartFile}
      * @param restaurantName restaurant's name as string
+     * @param isMain         flag for indicating if image is main for restaurant
      * @return saved {@link RestaurantImage}
      * @throws RestaurantNotFoundException if provided restaurant was not found
      * @throws ValidationException         if image's extension was invalid or image with provided name already exists
@@ -41,7 +42,7 @@ public interface RestaurantImageService {
      * @see ImageStorageService
      * @since 1.0.0
      */
-    RestaurantImage saveImage(@NonNull final MultipartFile image, @NonNull final String restaurantName)
+    RestaurantImage saveImage(@NonNull final MultipartFile image, @NonNull final String restaurantName, final boolean isMain)
             throws RestaurantNotFoundException, ValidationException;
     
     /**
@@ -53,6 +54,16 @@ public interface RestaurantImageService {
      * @since 1.0.0
      */
     RestaurantImage getImage(@NonNull final String name) throws ImageNotFoundException;
+    
+    /**
+     * Mark given image as main for restaurant
+     *
+     * @param name image's name
+     * @return updated {@link RestaurantImage}
+     * @throws ImageNotFoundException if provided image was not found
+     * @since 1.0.0
+     */
+    RestaurantImage setMainImage(@NonNull final String name) throws ImageNotFoundException;
     
     /**
      * Delete image by name from database and from file system
