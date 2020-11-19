@@ -32,6 +32,20 @@ public interface MessageCode {
         
     }
     
+    interface Menu {
+        
+        String DISH_ADDED = "Dish has been added";
+        
+        String DISH_EDITED = "Dish has been edited";
+        
+        String DISH_REMOVED = "Dish has been removed";
+        
+        String FIELD_INVALID = "Field: {0} has invalid value ({1})";
+        
+        String NAME_EXISTS = "Dish with provided name already exists";
+        
+    }
+    
     interface PasswordRecovery {
         
         String TOKEN_GENERATED = "Token has been generated and email message has been sent";

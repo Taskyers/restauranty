@@ -9,17 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import pl.taskyers.restauranty.core.data.images.ImageNotFoundException;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
-import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.error.exceptions.ValidationException;
 import pl.taskyers.restauranty.core.messages.MessageProvider;
 import pl.taskyers.restauranty.core.messages.container.ValidationMessageContainer;
 import pl.taskyers.restauranty.core.messages.enums.MessageCode;
 import pl.taskyers.restauranty.repository.images.RestaurantImageRepository;
-import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.images.ImageStorageService;
 import pl.taskyers.restauranty.service.images.RestaurantImageService;
 import pl.taskyers.restauranty.service.impl.images.validator.RestaurantImageValidator;
+import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 
 import java.util.Set;
 
@@ -28,7 +27,7 @@ import java.util.Set;
 @Slf4j
 public class RestaurantImageServiceImpl implements RestaurantImageService {
     
-    private final RestaurantRepository restaurantRepository;
+    private final RestaurantService restaurantService;
     
     private final RestaurantImageRepository restaurantImageRepository;
     
@@ -38,7 +37,7 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
     
     @Override
     public Set<RestaurantImage> getAllForRestaurant(@NonNull String restaurantName) {
-        return getRestaurant(restaurantName).getImages();
+        return restaurantService.getRestaurant(restaurantName).getImages();
     }
     
     @Override
@@ -49,7 +48,7 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
             throw new ValidationException(validationMessageContainer.getErrors());
         }
         
-        final Restaurant restaurant = getRestaurant(restaurantName);
+        final Restaurant restaurant = restaurantService.getRestaurant(restaurantName);
         final String newImageName = image.getOriginalFilename();
         if ( isMain ) {
             changeMainImage(newImageName, restaurant);
@@ -98,12 +97,6 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
                     log.debug("Changed main image from: {} to {} for restaurant: {}", restaurantImage.getName(), newImageName, restaurant);
                     return null;
                 });
-    }
-    
-    private Restaurant getRestaurant(String name) {
-        return restaurantRepository.findByName(name)
-                .orElseThrow(() -> new RestaurantNotFoundException(
-                        MessageProvider.getMessage(MessageCode.Restaurant.RESTAURANT_WITH_FIELD_NOT_FOUND, "name", name)));
     }
     
 }

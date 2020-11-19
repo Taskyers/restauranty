@@ -7,15 +7,14 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 import pl.taskyers.restauranty.core.data.images.ImageNotFoundException;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
-import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.error.exceptions.ValidationException;
 import pl.taskyers.restauranty.core.messages.container.ValidationMessageContainer;
 import pl.taskyers.restauranty.repository.images.RestaurantImageRepository;
-import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.images.ImageStorageService;
 import pl.taskyers.restauranty.service.images.RestaurantImageService;
 import pl.taskyers.restauranty.service.impl.images.validator.RestaurantImageValidator;
+import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 
 import java.util.Optional;
 import java.util.Set;
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.*;
 
 public class RestaurantImageServiceImplTest {
     
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
     
     private RestaurantImageRepository restaurantImageRepository;
     
@@ -39,26 +38,12 @@ public class RestaurantImageServiceImplTest {
     
     @BeforeEach
     public void setUp() {
-        restaurantRepository = mock(RestaurantRepository.class);
+        restaurantService = mock(RestaurantService.class);
         restaurantImageRepository = mock(RestaurantImageRepository.class);
         imageStorageService = mock(ImageStorageService.class);
         restaurantImageValidator = mock(RestaurantImageValidator.class);
         restaurantImageService =
-                new RestaurantImageServiceImpl(restaurantRepository, restaurantImageRepository, imageStorageService, restaurantImageValidator);
-    }
-    
-    @Test
-    public void testGettingImagesForNotExistingRestaurant() {
-        // given
-        final String name = "asdf";
-        when(restaurantRepository.findByName(name)).thenReturn(Optional.empty());
-        
-        // when
-        final RestaurantNotFoundException result =
-                assertThrows(RestaurantNotFoundException.class, () -> restaurantImageService.getAllForRestaurant(name));
-        
-        // then
-        assertThat(result.getMessage(), is(String.format("Restaurant with name %s was not found", name)));
+                new RestaurantImageServiceImpl(restaurantService, restaurantImageRepository, imageStorageService, restaurantImageValidator);
     }
     
     @Test
@@ -68,7 +53,7 @@ public class RestaurantImageServiceImplTest {
         final Set<RestaurantImage> images = Sets.newHashSet(new RestaurantImage(), new RestaurantImage(), new RestaurantImage());
         final Restaurant restaurant = new Restaurant();
         restaurant.setImages(images);
-        when(restaurantRepository.findByName(name)).thenReturn(Optional.of(restaurant));
+        when(restaurantService.getRestaurant(name)).thenReturn(restaurant);
         
         // when
         final Set<RestaurantImage> result = restaurantImageService.getAllForRestaurant(name);
@@ -102,7 +87,7 @@ public class RestaurantImageServiceImplTest {
         final MultipartFile image = new MockMultipartFile(name, name, "image/png", new byte[]{});
         final Restaurant restaurant = new Restaurant();
         when(restaurantImageValidator.validate(image)).thenReturn(new ValidationMessageContainer());
-        when(restaurantRepository.findByName(name)).thenReturn(Optional.of(restaurant));
+        when(restaurantService.getRestaurant(name)).thenReturn(restaurant);
         when(restaurantImageRepository.save(any(RestaurantImage.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
         
         // when
@@ -125,7 +110,7 @@ public class RestaurantImageServiceImplTest {
                 .main(true)
                 .build();
         when(restaurantImageValidator.validate(image)).thenReturn(new ValidationMessageContainer());
-        when(restaurantRepository.findByName(name)).thenReturn(Optional.of(restaurant));
+        when(restaurantService.getRestaurant(name)).thenReturn(restaurant);
         when(restaurantImageRepository.findByRestaurantAndMain(restaurant, true)).thenReturn(Optional.of(mainImage));
         when(restaurantImageRepository.save(any(RestaurantImage.class))).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
         
