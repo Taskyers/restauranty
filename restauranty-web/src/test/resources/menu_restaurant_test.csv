@@ -1,0 +1,21 @@
+id,name,description,price,type
+1,dish1,Test dish1,2.99,SOUP
+2,dish2,Test dish2,5.90,SOUP
+3,dish3,Test dish3,6.50,BURGER
+4,dish4,Test dish4,78.50,PIZZA
+5,dish5,Test dish5,1.30,MAIN
+6,dish6,Test dish6,2.50,MAIN
+7,dish7,Test dish7,3.23,DRINK
+8,dish8,Test dish8,4.50,COFFEE
+9,dish9,Test dish9,5.50,TEA
+10,dish10,Test dish10,6.50,MAIN
+11,dish11,Test dish11,7.50,TEA
+12,dish12,Test dish12,8.50,COFFEE
+13,dish13,Test dish13,9.50,PIZZA
+14,dish14,Test dish14,10.50,BURGER
+15,dish15,Test dish15,11.50,SANDWICH
+16,dish16,Test dish16,12.50,SNACK
+17,dish17,Test dish17,13.50,SALAD
+18,dish18,Test dish18,14.50,SALAD
+19,dish19,Test dish19,15.50,MAIN
+20,dish20,Test dish20,9010.00,MAIN

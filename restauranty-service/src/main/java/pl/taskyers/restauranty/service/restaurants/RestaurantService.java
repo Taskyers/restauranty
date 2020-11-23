@@ -20,6 +20,8 @@ public interface RestaurantService {
     
     Restaurant getRestaurant(@NonNull final Long id);
     
+    Restaurant getRestaurant(@NonNull final String name);
+    
     List<Restaurant> getUserRestaurants();
     
     Restaurant editRestaurant(@NonNull final Long id, @NonNull RestaurantDTO restaurantDTO);

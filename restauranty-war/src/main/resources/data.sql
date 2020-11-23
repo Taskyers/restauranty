@@ -71,12 +71,47 @@ values (1, 1),
        (1, 2);
 
 /* CHAT_ROOMS */
-insert into public.chat_room(client,restaurant)
-values (2,4),(3,4);
+insert into public.chat_room(client, restaurant)
+values (2, 4),
+       (3, 4);
+
 /* CHAT MESSAGES */
-insert into public.chat_message(content,status,timestamp,author, chat_room, recipient)
-values ('Test client is sending message to restaurant','RECEIVED','2020-01-03'::timestamp,2,1,4),
-       ('Test restaurant is sending message to client','RECEIVED','2020-01-04'::timestamp,4,1,2),
-       ('Test recovery test is sending message to restaurant','RECEIVED','2020-01-04'::timestamp,3,2,4),
-        ('Test restaurant is sending message to recovery test','RECEIVED','2020-01-05'::timestamp,4,2,3),
-          ('Test recovery test is sending second message to restaurant','DELIVERED','2020-01-06'::timestamp,3,2,4);
+insert into public.chat_message(content, status, timestamp, author, chat_room, recipient)
+values ('Test client is sending message to restaurant', 'RECEIVED', '2020-01-03'::timestamp, 2, 1, 4),
+       ('Test restaurant is sending message to client', 'RECEIVED', '2020-01-04'::timestamp, 4, 1, 2),
+       ('Test recovery test is sending message to restaurant', 'RECEIVED', '2020-01-04'::timestamp, 3, 2, 4),
+       ('Test restaurant is sending message to recovery test', 'RECEIVED', '2020-01-05'::timestamp, 4, 2, 3),
+       ('Test recovery test is sending second message to restaurant', 'DELIVERED', '2020-01-06'::timestamp, 3, 2, 4);
+
+/* MENU */
+insert into public.single_menu_dish(name, description, price, type)
+values ('Dish 1', 'Test dish 1', 2.50, 'TEA'),
+       ('Dish 2', 'Test dish 2', 123.123, 'SALAD'),
+       ('Dish 3', 'Test dish 3', 5.65, 'MAIN'),
+       ('Dish 4', 'Test dish 4', 17.23, 'BURGER'),
+       ('Dish 5', 'Test dish 5', 11.99, 'COFFEE'),
+       ('Dish 6', 'Test dish 6', 7.55, 'DESSERT'),
+       ('Dish 7', 'Test dish 7', 4.35, 'DRINK'),
+       ('Dish 8', 'Test dish 8', 1.27, 'SANDWICH'),
+       ('Dish 9', 'Test dish 9', 8.97, 'SNACK'),
+       ('Dish 10', 'Test dish 10', 4.66, 'SOUP'),
+       ('Dish 11', 'Test dish 11', 32.12, 'SOUP'),
+       ('Dish 12', 'Test dish 12', 76.32, 'PIZZA'),
+       ('Dish 13', 'Test dish 13', 2.89, 'PIZZA'),
+       ('Dish 14', 'Test dish 14', 12.63, 'PIZZA');
+
+insert into public.restaurant_menu(restaurant_id, dish_id)
+values (1, 1),
+       (1, 2),
+       (1, 3),
+       (1, 4),
+       (1, 5),
+       (1, 6),
+       (1, 7),
+       (1, 8),
+       (1, 9),
+       (1, 10),
+       (1, 11),
+       (1, 12),
+       (1, 13),
+       (1, 14);

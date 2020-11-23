@@ -78,6 +78,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
     
     @Override
+    public Restaurant getRestaurant(@NonNull String name) {
+        return restaurantRepository.findByName(name)
+                .orElseThrow(() -> new RestaurantNotFoundException(
+                        MessageProvider.getMessage(MessageCode.Restaurant.RESTAURANT_WITH_FIELD_NOT_FOUND, "name", name)));
+    }
+    
+    @Override
     public List<Restaurant> getUserRestaurants() {
         UserBase userBase = authProvider.getUserEntity();
         List<Restaurant> userRestaurants = restaurantRepository.findAllByOwner(userBase);
