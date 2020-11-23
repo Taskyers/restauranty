@@ -75,13 +75,13 @@ public class RestaurantServiceImplTest {
     public void testAddingRestaurantWithBlankFields() {
         //given
         AddressDTO addressDTO = new AddressDTO("", "", "", "");
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", addressDTO, "", TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", "", addressDTO, "", TAGS);
         
         //when
         final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
         
         //then
-        assertThat(result.getMessages(), iterableWithSize(6));
+        assertThat(result.getMessages(), iterableWithSize(7));
     }
     
     @Test
@@ -91,7 +91,7 @@ public class RestaurantServiceImplTest {
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
         String existingName = "Test";
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, addressDTO, existingPhoneNumber, TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, "Test desc", addressDTO, existingPhoneNumber, TAGS);
         when(restaurantRepository.findByName(existingName)).thenReturn(Optional.of(restaurant));
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
@@ -108,7 +108,7 @@ public class RestaurantServiceImplTest {
         Restaurant restaurant = new Restaurant();
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, INVALID_ZIP_CODE, INVALID_CITY_COUNTRY, INVALID_CITY_COUNTRY);
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", addressDTO, existingPhoneNumber, TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", "Test desc", addressDTO, existingPhoneNumber, TAGS);
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
         //when
@@ -328,8 +328,9 @@ public class RestaurantServiceImplTest {
     private RestaurantDTO getValidRestaurantDTO() {
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
         String restaurantName = "Test";
+        String restaurantDescription = "Test desc";
         String restaurantPhoneNumber = "997998999";
-        return new RestaurantDTO(1L, restaurantName, addressDTO, restaurantPhoneNumber, Sets.newHashSet("tag"));
+        return new RestaurantDTO(1L, restaurantName, restaurantDescription, addressDTO, restaurantPhoneNumber, Sets.newHashSet("tag"));
     }
     
 }

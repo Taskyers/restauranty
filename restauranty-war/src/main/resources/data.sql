@@ -38,10 +38,10 @@ insert into public.address(street, zip_code, city, country)
 values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 
 /* RESTAURANTS */
-insert into public.restaurant(name, address, phone_number, owner)
-values ('Burgerownia', 1, 123123123, 4),
-       ('Pizzeria', 1, 123321123, 4),
-       ('PizzerioBurgerownia', 1, 321123123, 4);
+insert into public.restaurant(name, description, address, phone_number, owner)
+values ('Burgerownia', 'Burgerowania desc', 1, 123123123, 4),
+       ('Pizzeria','Pizzeria desc' ,1, 123321123, 4),
+       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc', 1, 321123123, 4);
 
 /* TAGS */
 insert into public.tag(value)

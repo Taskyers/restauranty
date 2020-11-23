@@ -24,6 +24,7 @@ public class RestaurantConverter {
         address.setCountry(restaurantAddress.getCountry());
         address.setZipCode(restaurantAddress.getZipCode());
         restaurant.setName(restaurantDTO.getName());
+        restaurant.setDescription(restaurantDTO.getDescription());
         restaurant.setPhoneNumber(restaurantDTO.getPhoneNumber());
         restaurant.setAddress(address);
         restaurant.setTags(tags);
@@ -37,7 +38,7 @@ public class RestaurantConverter {
         addressDTO.setCity(restaurantAddress.getCity());
         addressDTO.setCountry(restaurantAddress.getCountry());
         addressDTO.setZipCode(restaurantAddress.getZipCode());
-        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), addressDTO, restaurant.getPhoneNumber(),
+        return new RestaurantDTO(restaurant.getId(), restaurant.getName(), restaurant.getDescription(), addressDTO, restaurant.getPhoneNumber(),
                 convertTags(restaurant.getTags()));
     }
     

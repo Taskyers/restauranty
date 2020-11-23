@@ -22,6 +22,8 @@ public class RestaurantDTOValidator {
     
     private static final String FIELD_NAME = "name";
     
+    private static final String FIELD_DESCRIPTION = "description";
+    
     private static final String FIELD_PHONE_NUMBER = "phoneNumber";
     
     private final RestaurantRepository restaurantRepository;
@@ -31,6 +33,7 @@ public class RestaurantDTOValidator {
     public ValidationMessageContainer validate(RestaurantDTO restaurantDTO, boolean checkForDuplicates) {
         final ValidationMessageContainer validationMessageContainer = addressDTOValidator.validate(restaurantDTO.getAddress());
         validateName(restaurantDTO.getName(), validationMessageContainer, checkForDuplicates);
+        validateDescription(restaurantDTO.getDescription(), validationMessageContainer);
         validatePhoneNumber(restaurantDTO.getPhoneNumber(), validationMessageContainer, checkForDuplicates);
         return validationMessageContainer;
     }
@@ -43,6 +46,12 @@ public class RestaurantDTOValidator {
             String message = getMessage(RESTAURANT_WITH_FIELD_EXISTS, name, "name");
             validationMessageContainer.addError(message, FIELD_NAME);
             log.debug(message);
+        }
+    }
+    
+    private void validateDescription(String description, ValidationMessageContainer validationMessageContainer) {
+        if ( StringUtils.isBlank(description) ) {
+            validationMessageContainer.addError(getMessage(FIELD_EMPTY, "Description"), FIELD_DESCRIPTION);
         }
     }
     
