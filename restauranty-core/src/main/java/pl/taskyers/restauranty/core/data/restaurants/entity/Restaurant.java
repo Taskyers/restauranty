@@ -30,6 +30,9 @@ public class Restaurant implements Serializable {
     @Column(nullable = false, unique = true)
     private String name;
     
+    @Column(nullable = false)
+    private String description;
+    
     @ManyToOne(targetEntity = Address.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(nullable = false, name = "address")
     @ToString.Exclude
