@@ -14,6 +14,14 @@ public interface MessageCode {
     
     String NOT_FOUND = "{0} was not found";
     
+    interface Users {
+        
+        String USER_BANNED = "User has been banned";
+        
+        String USER_UNBANNED = "User has been unbanned";
+        
+    }
+    
     interface Restaurant {
         
         String RESTAURANT_WITH_FIELD_NOT_FOUND = "Restaurant with {0} {1} was not found";

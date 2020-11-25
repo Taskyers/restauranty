@@ -44,4 +44,7 @@ public abstract class UserBase implements Serializable {
     @Column(unique = true, nullable = false)
     private String email;
     
+    @Column(columnDefinition = "boolean default true")
+    private boolean enabled;
+    
 }

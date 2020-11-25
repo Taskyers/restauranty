@@ -38,6 +38,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         final UserBase toSave = AccountConverter.convertFromDTO(accountDTO);
         toSave.setPassword(passwordEncoderHelper.getEncodedPassword(toSave.getPassword()));
         toSave.setRole(resolveRole(toSave));
+        toSave.setEnabled(true);
         
         return userRepository.save(toSave);
     }
