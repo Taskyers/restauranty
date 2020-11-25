@@ -20,8 +20,8 @@ public class UserAdmin extends UserBase {
         super();
     }
     
-    public UserAdmin(Long id, Role role, String username, String password, String email) {
-        super(id, role, username, password, email);
+    public UserAdmin(Long id, Role role, String username, String password, String email, boolean enabled) {
+        super(id, role, username, password, email, enabled);
     }
     
 }

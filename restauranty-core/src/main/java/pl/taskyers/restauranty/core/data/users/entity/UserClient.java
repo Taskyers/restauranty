@@ -20,8 +20,8 @@ public class UserClient extends UserBase {
         super();
     }
     
-    public UserClient(Long id, Role role, String username, String password, String email) {
-        super(id, role, username, password, email);
+    public UserClient(Long id, Role role, String username, String password, String email, boolean enabled) {
+        super(id, role, username, password, email, enabled);
     }
     
 }

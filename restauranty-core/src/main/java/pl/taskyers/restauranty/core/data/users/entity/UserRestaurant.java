@@ -36,8 +36,8 @@ public class UserRestaurant extends UserBase {
         this.restaurants = restaurants;
     }
     
-    public UserRestaurant(Long id, Role role, String username, String password, String email, Set<Restaurant> restaurants) {
-        super(id, role, username, password, email);
+    public UserRestaurant(Long id, Role role, String username, String password, String email, boolean enabled, Set<Restaurant> restaurants) {
+        super(id, role, username, password, email, enabled);
         this.restaurants = restaurants;
     }
     
