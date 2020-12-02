@@ -1,7 +1,6 @@
 package pl.taskyers.restauranty.core.data.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -15,10 +14,12 @@ import java.util.Set;
 @Entity
 @Table(name = "user_restaurant")
 @Data
-@Builder
 public class UserRestaurant extends UserBase {
     
     private static final long serialVersionUID = -5435621538416089555L;
+    
+    @Column(columnDefinition = "boolean default false")
+    private boolean verified;
     
     @OneToMany(targetEntity = Restaurant.class, mappedBy = "owner", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REMOVE }, fetch = FetchType.LAZY)
@@ -31,14 +32,17 @@ public class UserRestaurant extends UserBase {
         super();
     }
     
-    public UserRestaurant(Set<Restaurant> restaurants) {
+    public UserRestaurant(Set<Restaurant> restaurants, boolean verified) {
         super();
         this.restaurants = restaurants;
+        this.verified = verified;
     }
     
-    public UserRestaurant(Long id, Role role, String username, String password, String email, boolean enabled, Set<Restaurant> restaurants) {
+    public UserRestaurant(Long id, Role role, String username, String password, String email, boolean enabled, Set<Restaurant> restaurants,
+            boolean verified) {
         super(id, role, username, password, email, enabled);
         this.restaurants = restaurants;
+        this.verified = verified;
     }
     
 }
