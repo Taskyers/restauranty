@@ -38,6 +38,8 @@ public interface MessageCode {
         
         String RESTAURANT_DELETED = "Restaurant has been deleted";
         
+        String RESTAURANT_VERIFIED = "Restaurant has been verified";
+        
     }
     
     interface Menu {

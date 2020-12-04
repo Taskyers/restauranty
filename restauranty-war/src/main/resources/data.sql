@@ -26,8 +26,20 @@ values (3);
 insert into public.user_base(role, username, password, email)
 values (3, 'restaurant-test', '$2a$10$0k1y57DwGGZ8iKY5jpd6fum./qxDxq24lGsi8ChagpXgEHHVV0V6W',
         'restaurant-test@email.com');
-insert into public.user_restaurant(id)
-values (4);
+insert into public.user_restaurant(id, verified)
+values (4, true);
+
+insert into public.user_base(role, username, password, email)
+values (3, 'restaurant-test-1', '$2a$10$0k1y57DwGGZ8iKY5jpd6fum./qxDxq24lGsi8ChagpXgEHHVV0V6W',
+        'restaurant-test-1@email.com');
+insert into public.user_restaurant(id, verified)
+values (5, false);
+
+insert into public.user_base(role, username, password, email)
+values (3, 'restaurant-test-2', '$2a$10$0k1y57DwGGZ8iKY5jpd6fum./qxDxq24lGsi8ChagpXgEHHVV0V6W',
+        'restaurant-test-2@email.com');
+insert into public.user_restaurant(id, verified)
+values (6, false);
 
 /* TOKENS */
 insert into public.password_recovery_token(token, "user")
@@ -40,8 +52,9 @@ values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 /* RESTAURANTS */
 insert into public.restaurant(name, description, address, phone_number, owner)
 values ('Burgerownia', 'Burgerowania desc', 1, 123123123, 4),
-       ('Pizzeria','Pizzeria desc' ,1, 123321123, 4),
-       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc', 1, 321123123, 4);
+       ('Pizzeria', 'Pizzeria desc', 1, 123321123, 4),
+       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc', 1, 321123123, 4),
+       ('NoVerifiedTest', 'NoVerifiedTest desc', 1, 321126123, 5);
 
 /* TAGS */
 insert into public.tag(value)
@@ -57,7 +70,9 @@ values (1, 1),
        (3, 1),
        (3, 2),
        (3, 3),
-       (3, 4);
+       (3, 4),
+       (4, 2),
+       (4, 4);
 
 /* REVIEWS */
 insert into public.review("user", restaurant, content, rate)

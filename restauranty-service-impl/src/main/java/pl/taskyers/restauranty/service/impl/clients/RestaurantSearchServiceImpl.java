@@ -32,6 +32,8 @@ public class RestaurantSearchServiceImpl implements RestaurantSearchService {
     
     private Set<String> getAllNames(Collection<Restaurant> restaurants) {
         return restaurants.stream()
+                .filter(restaurant -> restaurant.getOwner()
+                        .isVerified())
                 .map(Restaurant::getName)
                 .collect(Collectors.toSet());
     }
