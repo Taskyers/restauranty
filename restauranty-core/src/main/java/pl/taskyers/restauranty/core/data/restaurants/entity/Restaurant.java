@@ -5,6 +5,8 @@ import lombok.*;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
 import pl.taskyers.restauranty.core.data.menu.entity.SingleMenuDish;
+import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.reservation.entity.Reservation;
 import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
 import pl.taskyers.restauranty.core.data.reviews.entity.Review;
 import pl.taskyers.restauranty.core.data.users.entity.UserRestaurant;
@@ -32,6 +34,9 @@ public class Restaurant implements Serializable {
     
     @Column(nullable = false)
     private String description;
+    
+    @Column(nullable = false)
+    private Integer capacity;
     
     @ManyToOne(targetEntity = Address.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST })
     @JoinColumn(nullable = false, name = "address")
@@ -64,5 +69,19 @@ public class Restaurant implements Serializable {
     
     @ManyToMany(targetEntity = Tag.class, fetch = FetchType.EAGER)
     private Set<Tag> tags = new HashSet<>();
+    
+    @OneToMany(targetEntity = OpenHour.class, mappedBy = "restaurant", cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
+    private Set<OpenHour> openHours = new HashSet<>();
+    
+    @OneToMany(targetEntity = Reservation.class, cascade = { CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @JsonManagedReference
+    private Set<Reservation> reservations = new HashSet<>();
     
 }

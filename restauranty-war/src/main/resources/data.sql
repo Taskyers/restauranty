@@ -38,10 +38,10 @@ insert into public.address(street, zip_code, city, country)
 values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
 
 /* RESTAURANTS */
-insert into public.restaurant(name, description, address, phone_number, owner)
-values ('Burgerownia', 'Burgerowania desc', 1, 123123123, 4),
-       ('Pizzeria','Pizzeria desc' ,1, 123321123, 4),
-       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc', 1, 321123123, 4);
+insert into public.restaurant(name, description,capacity ,address ,phone_number, owner)
+values ('Burgerownia', 'Burgerowania desc',15 ,1, 123123123, 4),
+       ('Pizzeria','Pizzeria desc' ,15 ,1, 123321123, 4),
+       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc',15 ,1, 321123123, 4);
 
 /* TAGS */
 insert into public.tag(value)
@@ -115,3 +115,23 @@ values (1, 1),
        (1, 12),
        (1, 13),
        (1, 14);
+
+/* OPEN HOURS */
+insert into  public.open_hour( open_time, day_of_week, close_time ,restaurant)
+values ('15:00'::time, 1, '19:00'::time, 1),
+       ('15:00'::time, 1, '19:00'::time, 2),
+       ('11:00'::time, 1, '19:00'::time, 3),
+       ('12:00'::time, 3, '19:00'::time, 1),
+       ('12:00'::time, 4, '14:00'::time, 2),
+       ('15:00'::time, 5, '19:00'::time, 3),
+       ('15:00'::time, 2, '19:00'::time, 1),
+       ('15:00'::time, 2, '19:00'::time, 2),
+       ('15:00'::time, 2, '19:00'::time, 3);
+
+/* RESERVATION */
+insert into public.reservation(persons_count, reservation_date,  reservation_time, status, client, restaurant)
+values (2, '01-02-2021'::date, '12:30'::time, 'ACCEPTED', 2, 1),
+       (2, '02-02-2021'::date, '12:30'::time, 'ACCEPTED', 2, 2),
+       (2, '03-02-2021'::date, '12:30'::time, 'REJECTED', 2, 1),
+       (2, '04-02-2021'::date, '12:30'::time, 'CANCELED', 3, 2),
+       (2, '05-02-2021'::date, '12:30'::time, 'ACCEPTED', 3, 3);

@@ -29,7 +29,7 @@ public class ChatMessageController {
         chatMessageService.sendMessage(chatMessage);
         messagingTemplate.convertAndSendToUser(
                 chatMessage.getRecipient(), "/queue/messages",
-                new ChatMessageDTO(chatMessage.getAuthor(), chatMessage.getRecipient(), chatMessage.getContent(), DateUtils.parseString(new Date())));
+                new ChatMessageDTO(chatMessage.getAuthor(), chatMessage.getRecipient(), chatMessage.getContent(), DateUtils.parseStringDatetime(new Date())));
     }
     
     @GetMapping(ChatMessageService.CHAT_MESSAGE_PREFIX + "/{recipient}/count")
