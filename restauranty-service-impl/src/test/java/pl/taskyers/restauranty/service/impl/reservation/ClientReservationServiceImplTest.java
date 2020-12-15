@@ -3,7 +3,7 @@ package pl.taskyers.restauranty.service.impl.reservation;
 import com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.reservation.ReservationNotFound;
 import pl.taskyers.restauranty.core.data.reservation.dto.ReservationDTO;
 import pl.taskyers.restauranty.core.data.reservation.entity.Reservation;
@@ -225,7 +225,6 @@ public class ClientReservationServiceImplTest {
         assertThat(result.getMessage(), is("Reservation is not yours"));
     }
     
-    
     @Test
     public void testCancelingValidReservation() {
         //given
@@ -246,7 +245,6 @@ public class ClientReservationServiceImplTest {
         assertThat(result, notNullValue());
         assertThat(result.getStatus(), is(ReservationStatus.CANCELED));
     }
-    
     
     private String getTomorrowsDate() {
         return DateUtils.parseStringDate(org.apache.commons.lang3.time.DateUtils.addDays(new Date(), 1));

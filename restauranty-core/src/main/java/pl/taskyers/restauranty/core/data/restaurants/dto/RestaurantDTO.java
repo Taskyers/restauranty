@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
-import pl.taskyers.restauranty.core.data.open_hour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 
 import java.util.Set;
 

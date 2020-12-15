@@ -5,7 +5,7 @@ import lombok.*;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
 import pl.taskyers.restauranty.core.data.images.entity.RestaurantImage;
 import pl.taskyers.restauranty.core.data.menu.entity.SingleMenuDish;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.reservation.entity.Reservation;
 import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
 import pl.taskyers.restauranty.core.data.reviews.entity.Review;

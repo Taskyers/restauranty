@@ -10,11 +10,9 @@ public interface RestaurantReservationService {
     
     String PREFIX = "/restaurant/reservations";
     
-    String BY_ID = "/{id}";
-    
     String BY_RESTAURANT = "/{restaurant}";
     
-    String ACCEPT="/accept/{id}";
+    String ACCEPT = "/accept/{id}";
     
     String REJECT = "/reject/{id}";
     
@@ -23,6 +21,5 @@ public interface RestaurantReservationService {
     Reservation acceptReservation(@NonNull final Long id);
     
     Reservation rejectReservation(@NonNull final Long id);
-    
     
 }

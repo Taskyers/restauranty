@@ -54,7 +54,7 @@ insert into public.restaurant(name, description,capacity ,address ,phone_number,
 values ('Burgerownia', 'Burgerowania desc',15 ,1, 123123123, 4),
        ('Pizzeria', 'Pizzeria desc', 15 ,1, 123321123, 4),
        ('PizzerioBurgerownia', 'PizzerioBurgerownia desc',15 ,1, 321123123, 4),
-       ('NoVerifiedTest', 'NoVerifiedTest desc', 1, 321126123, 5);
+       ('NoVerifiedTest', 'NoVerifiedTest desc',15 ,1, 321126123, 5);
 
 /* TAGS */
 insert into public.tag(value)

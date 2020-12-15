@@ -1,4 +1,4 @@
-package pl.taskyers.restauranty.core.data.open_hour.entity;
+package pl.taskyers.restauranty.core.data.openhour.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

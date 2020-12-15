@@ -1,4 +1,4 @@
-package pl.taskyers.restauranty.service.impl.open_hour;
+package pl.taskyers.restauranty.service.impl.openhour;
 
 import com.google.common.collect.Sets;
 import lombok.NonNull;
@@ -7,12 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.taskyers.restauranty.core.data.open_hour.dto.OpenHourDTO;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.utils.DateUtils;
-import pl.taskyers.restauranty.repository.open_hour.OpenHourRepository;
-import pl.taskyers.restauranty.service.open_hour.OpenHourService;
+import pl.taskyers.restauranty.repository.openhour.OpenHourRepository;
+import pl.taskyers.restauranty.service.openhour.OpenHourService;
 
 import java.time.DayOfWeek;
 import java.util.Set;

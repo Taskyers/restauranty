@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import pl.taskyers.restauranty.core.data.open_hour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.messages.container.ValidationMessageContainer;
 import pl.taskyers.restauranty.core.utils.ValidationUtils;
 import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.impl.addresses.validator.AddressDTOValidator;
-import pl.taskyers.restauranty.service.impl.open_hour.validator.OpenHourDTOValidator;
+import pl.taskyers.restauranty.service.impl.openhour.validator.OpenHourDTOValidator;
 
 import java.util.Set;
 

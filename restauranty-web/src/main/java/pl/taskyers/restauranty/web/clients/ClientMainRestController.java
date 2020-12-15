@@ -3,7 +3,11 @@ package pl.taskyers.restauranty.web.clients;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.restaurants.converters.RestaurantConverter;
 import pl.taskyers.restauranty.service.clients.RestaurantSearchService;
+import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 import pl.taskyers.restauranty.service.tags.TagService;
 import pl.taskyers.restauranty.web.clients.dto.RestaurantSearchDTO;
 
@@ -18,15 +22,23 @@ public class ClientMainRestController {
     
     private final TagService tagService;
     
-    @GetMapping
+    private final RestaurantService restaurantService;
+    
+    @GetMapping(RestaurantSearchService.SEARCH)
     public ResponseEntity<Set<String>> getAllTags() {
         return ResponseEntity.ok(tagService.getAll());
     }
     
-    @PostMapping
+    @PostMapping(RestaurantSearchService.SEARCH)
     public ResponseEntity<Set<String>> searchForRestaurants(@RequestBody final RestaurantSearchDTO restaurantSearchDTO) {
         return ResponseEntity.ok(
                 restaurantSearchService.searchForRestaurants(restaurantSearchDTO.getRestaurantName(), restaurantSearchDTO.getTags()));
+    }
+    
+    @GetMapping(RestaurantSearchService.GET_RESTAURANTS_OPEN_HOURS)
+    public ResponseEntity<Set<OpenHourDTO>> getRestaurantsOpenHours(@PathVariable String restaurantName) {
+        Set<OpenHour> toFind = restaurantService.getRestaurant(restaurantName).getOpenHours();
+        return ResponseEntity.ok(RestaurantConverter.convertOpenHours(toFind));
     }
     
 }

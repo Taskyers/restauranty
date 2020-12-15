@@ -4,7 +4,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.reservation.ReservationNotFound;
 import pl.taskyers.restauranty.core.data.reservation.converters.ReservationDTOConverter;
 import pl.taskyers.restauranty.core.data.reservation.dto.ReservationDTO;

@@ -1,4 +1,4 @@
-package pl.taskyers.restauranty.core.data.open_hour.dto;
+package pl.taskyers.restauranty.core.data.openhour.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

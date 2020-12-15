@@ -41,7 +41,7 @@ public class RestaurantReservationServiceImplTest {
         reservationRepository = mock(ReservationRepository.class);
         restaurantRepository = mock(RestaurantRepository.class);
         restaurantReservationService =
-                new RestaurantReservationServiceImpl(reservationDTOValidator, authProvider, restaurantRepository, reservationRepository);
+                new RestaurantReservationServiceImpl(authProvider, restaurantRepository, reservationRepository);
     }
     
     @Test

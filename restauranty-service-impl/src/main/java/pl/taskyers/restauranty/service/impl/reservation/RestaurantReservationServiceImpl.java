@@ -16,7 +16,6 @@ import pl.taskyers.restauranty.core.messages.enums.MessageCode;
 import pl.taskyers.restauranty.repository.reservation.ReservationRepository;
 import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.auth.AuthProvider;
-import pl.taskyers.restauranty.service.impl.reservation.validator.ReservationDTOValidator;
 import pl.taskyers.restauranty.service.reservation.RestaurantReservationService;
 
 import java.util.List;
@@ -24,8 +23,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class RestaurantReservationServiceImpl implements RestaurantReservationService {
-    
-    final ReservationDTOValidator reservationDTOValidator;
     
     final AuthProvider authProvider;
     

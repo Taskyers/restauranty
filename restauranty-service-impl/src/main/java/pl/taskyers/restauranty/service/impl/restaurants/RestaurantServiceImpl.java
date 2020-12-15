@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException;
 import pl.taskyers.restauranty.core.data.restaurants.converters.RestaurantConverter;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
@@ -22,7 +22,7 @@ import pl.taskyers.restauranty.repository.addresses.AddressRepository;
 import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.auth.AuthProvider;
 import pl.taskyers.restauranty.service.impl.restaurants.validator.RestaurantDTOValidator;
-import pl.taskyers.restauranty.service.open_hour.OpenHourService;
+import pl.taskyers.restauranty.service.openhour.OpenHourService;
 import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 import pl.taskyers.restauranty.service.tags.TagService;
 

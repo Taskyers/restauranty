@@ -3,8 +3,8 @@ package pl.taskyers.restauranty.core.data.restaurants.converters;
 import lombok.experimental.UtilityClass;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
-import pl.taskyers.restauranty.core.data.open_hour.dto.OpenHourDTO;
-import pl.taskyers.restauranty.core.data.open_hour.entity.OpenHour;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.entity.OpenHour;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.data.restaurants.tags.entity.Tag;
@@ -64,7 +64,7 @@ public class RestaurantConverter {
                 .collect(Collectors.toSet());
     }
     
-    private Set<OpenHourDTO> convertOpenHours(Set<OpenHour> openHours) {
+    public Set<OpenHourDTO> convertOpenHours(Set<OpenHour> openHours) {
         Set<OpenHourDTO> result = new HashSet<>();
         for ( OpenHour openHour : openHours ) {
             result.add(new OpenHourDTO(DayOfWeek.of(openHour.getDayOfWeek()).name(), DateUtils.parseStringTime(openHour.getOpenTime()),

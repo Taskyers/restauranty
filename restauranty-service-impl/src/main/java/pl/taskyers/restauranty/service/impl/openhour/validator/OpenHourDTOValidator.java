@@ -1,8 +1,8 @@
-package pl.taskyers.restauranty.service.impl.open_hour.validator;
+package pl.taskyers.restauranty.service.impl.openhour.validator;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
-import pl.taskyers.restauranty.core.data.open_hour.dto.OpenHourDTO;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 import pl.taskyers.restauranty.core.messages.container.ValidationMessageContainer;
 import pl.taskyers.restauranty.core.messages.enums.MessageCode;
 import pl.taskyers.restauranty.core.utils.DateUtils;
