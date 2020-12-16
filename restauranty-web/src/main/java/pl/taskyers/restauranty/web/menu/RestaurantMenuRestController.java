@@ -8,6 +8,7 @@ import pl.taskyers.restauranty.core.data.menu.enums.DishType;
 import pl.taskyers.restauranty.core.messages.ResponseMessage;
 import pl.taskyers.restauranty.core.messages.enums.MessageCode;
 import pl.taskyers.restauranty.core.messages.enums.MessageType;
+import pl.taskyers.restauranty.service.menu.MenuService;
 import pl.taskyers.restauranty.service.menu.RestaurantMenuService;
 import pl.taskyers.restauranty.service.menu.dto.AddDishDTO;
 import pl.taskyers.restauranty.web.menu.dto.MenuGroup;
@@ -18,26 +19,28 @@ import java.util.Set;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(RestaurantMenuService.PREFIX)
+@RequestMapping(MenuService.RESTAURANT_PREFIX)
 public class RestaurantMenuRestController {
+    
+    private final MenuService menuService;
     
     private final RestaurantMenuService restaurantMenuService;
     
-    @GetMapping(RestaurantMenuService.BY_RESTAURANT)
+    @GetMapping(MenuService.BY_RESTAURANT)
     public ResponseEntity<Set<MenuGroup>> getMenuForRestaurant(@PathVariable final String restaurant) {
-        final Set<SingleMenuDish> menu = restaurantMenuService.getMenuForRestaurant(restaurant);
+        final Set<SingleMenuDish> menu = menuService.getMenuForRestaurant(restaurant);
         return ResponseEntity.ok(MenuHelper.groupMenu(menu)
                 .getGroups());
     }
     
-    @GetMapping(RestaurantMenuService.BY_RESTAURANT + RestaurantMenuService.BY_TYPE)
+    @GetMapping(MenuService.BY_RESTAURANT + MenuService.BY_TYPE)
     public ResponseEntity<Set<MenuGroup>> getMenuForRestaurantAndType(@PathVariable final String restaurant, @PathVariable final String type) {
-        final Set<SingleMenuDish> menu = restaurantMenuService.getDishesForRestaurantAndType(restaurant, DishType.valueOf(type));
+        final Set<SingleMenuDish> menu = menuService.getDishesForRestaurantAndType(restaurant, DishType.valueOf(type));
         return ResponseEntity.ok(MenuHelper.groupMenu(menu)
                 .getGroups());
     }
     
-    @PostMapping(RestaurantMenuService.BY_RESTAURANT)
+    @PostMapping(MenuService.BY_RESTAURANT)
     public ResponseEntity<ResponseMessage<SingleMenuDish>> addDishToMenu(@PathVariable final String restaurant,
             @RequestBody final AddDishDTO addDishDTO) {
         final SingleMenuDish savedDish = restaurantMenuService.addDishToMenu(restaurant, addDishDTO);
@@ -45,14 +48,14 @@ public class RestaurantMenuRestController {
                 .body(new ResponseMessage<>(MessageCode.Menu.DISH_ADDED, MessageType.SUCCESS, savedDish));
     }
     
-    @PutMapping(RestaurantMenuService.BY_RESTAURANT + RestaurantMenuService.BY_ID)
+    @PutMapping(MenuService.BY_RESTAURANT + MenuService.BY_ID)
     public ResponseEntity<ResponseMessage<SingleMenuDish>> editDish(@PathVariable final String restaurant, @PathVariable final Long id,
             @RequestBody final AddDishDTO addDishDTO) {
         final SingleMenuDish editedDish = restaurantMenuService.editDish(id, restaurant, addDishDTO);
         return ResponseEntity.ok(new ResponseMessage<>(MessageCode.Menu.DISH_EDITED, MessageType.SUCCESS, editedDish));
     }
     
-    @DeleteMapping(RestaurantMenuService.BY_RESTAURANT + RestaurantMenuService.BY_ID)
+    @DeleteMapping(MenuService.BY_RESTAURANT + MenuService.BY_ID)
     public ResponseEntity<ResponseMessage<?>> removeDish(@PathVariable final String restaurant, @PathVariable final Long id) {
         restaurantMenuService.removeDish(id, restaurant);
         return ResponseEntity.ok(new ResponseMessage<>(MessageCode.Menu.DISH_REMOVED, MessageType.SUCCESS));

@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.taskyers.restauranty.core.data.menu.DishNotFoundException;
 import pl.taskyers.restauranty.core.data.menu.entity.SingleMenuDish;
-import pl.taskyers.restauranty.core.data.menu.enums.DishType;
 import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.error.exceptions.ValidationException;
@@ -21,7 +20,6 @@ import pl.taskyers.restauranty.service.menu.dto.AddDishDTO;
 import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,22 +28,6 @@ public class RestaurantMenuServiceImpl implements RestaurantMenuService {
     private final RestaurantService restaurantService;
     
     private final MenuRepository menuRepository;
-    
-    @Override
-    public Set<SingleMenuDish> getMenuForRestaurant(@NonNull String restaurant) throws RestaurantNotFoundException {
-        return restaurantService.getRestaurant(restaurant)
-                .getMenu();
-    }
-    
-    @Override
-    public Set<SingleMenuDish> getDishesForRestaurantAndType(@NonNull String restaurant, @NonNull DishType dishType)
-            throws RestaurantNotFoundException {
-        final Restaurant restaurantFromDatabase = restaurantService.getRestaurant(restaurant);
-        return restaurantFromDatabase.getMenu()
-                .stream()
-                .filter(singleMenuDish -> singleMenuDish.getType() == dishType)
-                .collect(Collectors.toSet());
-    }
     
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW)

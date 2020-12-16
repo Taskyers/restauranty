@@ -13,15 +13,14 @@ import pl.taskyers.restauranty.service.menu.dto.AddDishDTO;
 import pl.taskyers.restauranty.service.restaurants.RestaurantService;
 
 import java.util.Optional;
-import java.util.Set;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.collection.IsIterableWithSize.iterableWithSize;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class RestaurantMenuServiceImplTest {
@@ -37,34 +36,6 @@ public class RestaurantMenuServiceImplTest {
         restaurantService = mock(RestaurantService.class);
         menuRepository = mock(MenuRepository.class);
         restaurantMenuService = new RestaurantMenuServiceImpl(restaurantService, menuRepository);
-    }
-    
-    @Test
-    public void testFilteringMenu() {
-        // given
-        final String restaurantName = "test";
-        final SingleMenuDish dish1 = SingleMenuDish.builder()
-                .name("dish1")
-                .type(DishType.TEA)
-                .build();
-        final SingleMenuDish dish2 = SingleMenuDish.builder()
-                .name("dish2")
-                .type(DishType.TEA)
-                .build();
-        final SingleMenuDish dish3 = SingleMenuDish.builder()
-                .name("dish3")
-                .type(DishType.BURGER)
-                .build();
-        final Restaurant restaurant = Restaurant.builder()
-                .menu(Sets.newHashSet(dish1, dish2, dish3))
-                .build();
-        when(restaurantService.getRestaurant(restaurantName)).thenReturn(restaurant);
-        
-        // when
-        final Set<SingleMenuDish> result = restaurantMenuService.getDishesForRestaurantAndType(restaurantName, DishType.TEA);
-        
-        // then
-        assertThat(result, iterableWithSize(2));
     }
     
     @Test
