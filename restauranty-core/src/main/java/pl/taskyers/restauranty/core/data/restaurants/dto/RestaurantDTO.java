@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 
 import java.util.Set;
 
@@ -18,10 +19,14 @@ public class RestaurantDTO {
     
     private String description;
     
+    private int capacity;
+    
     private AddressDTO address;
     
     private String phoneNumber;
     
     private Set<String> tags;
+    
+    private Set<OpenHourDTO> openHours;
     
 }

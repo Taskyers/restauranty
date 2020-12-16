@@ -6,7 +6,11 @@ import java.util.Set;
 
 public interface RestaurantSearchService {
     
-    String PREFIX = "/client/search";
+    String PREFIX = "/client";
+    
+    String SEARCH = "/search";
+    
+    String GET_RESTAURANTS_OPEN_HOURS = "/openHours/{restaurantName}";
     
     /**
      * Search for restaurants by name and tags. Following cases are covered:

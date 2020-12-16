@@ -32,7 +32,7 @@ public interface MessageCode {
         
         String RESTAURANT_NOT_FOUND = "Restaurant with {0} {1} was not found";
         
-        String RESTAURANT_NOT_YOURS = "Restaurant with {0} {1} is not yours";
+        String RESTAURANT_NOT_YOURS = "Restaurant is not yours";
         
         String RESTAURANT_UPDATED = "Restaurant has been updated";
         
@@ -136,4 +136,27 @@ public interface MessageCode {
         
     }
     
+    interface OpenHour{
+        
+        String OPEN_TIME_AFTER_CLOSE_TIME = "Open time cannot be after close time";
+    
+    }
+     interface Reservation{
+    
+         String RESERVATION_CREATED = "Reservation has been created";
+    
+         String RESERVATION_NOT_ALLOWED = "Reservation is not allowed at this time with this amount of persons";
+         
+         String RESERVATION_INVALID_TIME = "Reservation time is not between open hours of the restaurant";
+    
+         String RESERVATION_NOT_YOURS = "Reservation is not yours";
+    
+         String RESERVATION_NOT_FOUND = "Reservation with {0} {1} was not found";
+    
+         String RESERVATION_ACCEPTED = "Reservation has been accepted";
+    
+         String RESERVATION_CANCELED = "Reservation has been canceled";
+    
+         String RESERVATION_REJECTED = "Reservation has been rejected";
+     }
 }

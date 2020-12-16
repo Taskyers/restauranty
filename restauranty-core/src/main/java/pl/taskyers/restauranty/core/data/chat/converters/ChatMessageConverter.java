@@ -14,7 +14,7 @@ public class ChatMessageConverter {
     public List<ChatMessageDTO> convertToDTOList(List<ChatMessage> messages){
         List<ChatMessageDTO> result= new ArrayList<>(messages.size());
         for(ChatMessage message : messages){
-            result.add(new ChatMessageDTO(message.getAuthor().getUsername(),message.getRecipient().getUsername(),message.getContent(), DateUtils.parseString(message.getTimestamp())));
+            result.add(new ChatMessageDTO(message.getAuthor().getUsername(),message.getRecipient().getUsername(),message.getContent(), DateUtils.parseStringDatetime(message.getTimestamp())));
         }
         return result;
     }

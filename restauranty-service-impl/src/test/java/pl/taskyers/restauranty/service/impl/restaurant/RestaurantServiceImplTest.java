@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.taskyers.restauranty.core.data.addresses.dto.AddressDTO;
 import pl.taskyers.restauranty.core.data.addresses.entity.Address;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 import pl.taskyers.restauranty.core.data.restaurants.RestaurantNotFoundException;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
@@ -16,10 +17,13 @@ import pl.taskyers.restauranty.repository.addresses.AddressRepository;
 import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.auth.AuthProvider;
 import pl.taskyers.restauranty.service.impl.addresses.validator.AddressDTOValidator;
+import pl.taskyers.restauranty.service.impl.openhour.validator.OpenHourDTOValidator;
 import pl.taskyers.restauranty.service.impl.restaurants.RestaurantServiceImpl;
 import pl.taskyers.restauranty.service.impl.restaurants.validator.RestaurantDTOValidator;
+import pl.taskyers.restauranty.service.openhour.OpenHourService;
 import pl.taskyers.restauranty.service.tags.TagService;
 
+import java.time.DayOfWeek;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +52,8 @@ public class RestaurantServiceImplTest {
     
     private static final Set<String> TAGS = Sets.newHashSet("tag");
     
+    private static final Set<OpenHourDTO> OPEN_HOUR_DTOS = Sets.newHashSet(new OpenHourDTO(DayOfWeek.MONDAY.name(), "12:00", "13:00"));
+    
     private RestaurantServiceImpl restaurantService;
     
     private RestaurantDTOValidator restaurantDTOValidator;
@@ -58,24 +64,29 @@ public class RestaurantServiceImplTest {
     
     private AddressDTOValidator addressDTOValidator;
     
+    private OpenHourDTOValidator openHourDTOValidator;
+    
     private AuthProvider authProvider;
     
     @BeforeEach
     public void setUp() {
         TagService tagService = mock(TagService.class);
+        OpenHourService openHourService = mock(OpenHourService.class);
         restaurantRepository = mock(RestaurantRepository.class);
         addressRepository = mock(AddressRepository.class);
         authProvider = mock(AuthProvider.class);
         addressDTOValidator = new AddressDTOValidator();
-        restaurantDTOValidator = new RestaurantDTOValidator(restaurantRepository, addressDTOValidator);
-        restaurantService = new RestaurantServiceImpl(restaurantDTOValidator, restaurantRepository, addressRepository, authProvider, tagService);
+        openHourDTOValidator = new OpenHourDTOValidator();
+        restaurantDTOValidator = new RestaurantDTOValidator(restaurantRepository, addressDTOValidator, openHourDTOValidator);
+        restaurantService =
+                new RestaurantServiceImpl(restaurantDTOValidator, restaurantRepository, addressRepository, authProvider, tagService, openHourService);
     }
     
     @Test
     public void testAddingRestaurantWithBlankFields() {
         //given
         AddressDTO addressDTO = new AddressDTO("", "", "", "");
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", "", addressDTO, "", TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "", "", 3, addressDTO, "", TAGS, OPEN_HOUR_DTOS);
         
         //when
         final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
@@ -91,7 +102,7 @@ public class RestaurantServiceImplTest {
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
         String existingName = "Test";
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, "Test desc", addressDTO, existingPhoneNumber, TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, existingName, "Test desc", 3, addressDTO, existingPhoneNumber, TAGS, OPEN_HOUR_DTOS);
         when(restaurantRepository.findByName(existingName)).thenReturn(Optional.of(restaurant));
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
@@ -108,7 +119,7 @@ public class RestaurantServiceImplTest {
         Restaurant restaurant = new Restaurant();
         AddressDTO addressDTO = new AddressDTO(VALID_STREET, INVALID_ZIP_CODE, INVALID_CITY_COUNTRY, INVALID_CITY_COUNTRY);
         String existingPhoneNumber = "997998999";
-        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", "Test desc", addressDTO, existingPhoneNumber, TAGS);
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, "Test", "Test desc", 3, addressDTO, existingPhoneNumber, TAGS, OPEN_HOUR_DTOS);
         when(restaurantRepository.findByPhoneNumber(existingPhoneNumber)).thenReturn(Optional.of(restaurant));
         
         //when
@@ -116,6 +127,70 @@ public class RestaurantServiceImplTest {
         
         //then
         assertThat(result.getMessages(), iterableWithSize(4));
+    }
+    
+    @Test
+    public void testAddingRestaurantWithOpenTimeAfterCloseTime() {
+        //given
+        AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
+        String name = "Test";
+        String phoneNumber = "997998999";
+        Set<OpenHourDTO> invalidOpenTimes = Sets.newHashSet(new OpenHourDTO(DayOfWeek.MONDAY.name(), "14:00", "13:00"));
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, name, "Test desc", 3, addressDTO, phoneNumber, TAGS, invalidOpenTimes);
+        
+        //when
+        final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
+        
+        //then
+        assertThat(result.getMessages(), iterableWithSize(1));
+    }
+    
+    @Test
+    public void testAddingRestaurantWithInvalidCloseTimeFormat() {
+        //given
+        AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
+        String name = "Test";
+        String phoneNumber = "997998999";
+        Set<OpenHourDTO> invalidOpenTimes = Sets.newHashSet(new OpenHourDTO(DayOfWeek.MONDAY.name(), "12:00", "13:"));
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, name, "Test desc", 3, addressDTO, phoneNumber, TAGS, invalidOpenTimes);
+        
+        //when
+        final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
+        
+        //then
+        assertThat(result.getMessages(), iterableWithSize(1));
+    }
+    
+    @Test
+    public void testAddingRestaurantWithBlankDayOfWeekAndBlankOpenTimeAndCloseTimeFormat() {
+        //given
+        AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
+        String name = "Test";
+        String phoneNumber = "997998999";
+        Set<OpenHourDTO> invalidOpenTimes = Sets.newHashSet(new OpenHourDTO("", "", "13:00"));
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, name, "Test desc", 3, addressDTO, phoneNumber, TAGS, invalidOpenTimes);
+        
+        //when
+        final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
+        
+        //then
+        assertThat(result.getMessages(), iterableWithSize(2));
+    }
+    
+    @Test
+    public void testAddingRestaurantWithNotExistingDayOfWeekAndBlankOpenTime() {
+        //given
+        AddressDTO addressDTO = new AddressDTO(VALID_STREET, VALID_ZIP_CODE, VALID_CITY_COUNTRY, VALID_CITY_COUNTRY);
+        String name = "Test";
+        String phoneNumber = "997998999";
+        Set<OpenHourDTO> invalidOpenTimes = Sets.newHashSet(new OpenHourDTO("test", "", "13:00"));
+        RestaurantDTO restaurantDTO = new RestaurantDTO(1L, name, "Test desc", 3, addressDTO, phoneNumber, TAGS, invalidOpenTimes);
+        
+        //when
+        final ValidationException result = assertThrows(ValidationException.class, () -> restaurantService.addRestaurant(restaurantDTO));
+        
+        //then
+        assertThat(result.getMessages(), iterableWithSize(2));
     }
     
     @Test
@@ -178,7 +253,7 @@ public class RestaurantServiceImplTest {
         final ForbiddenException result = assertThrows(ForbiddenException.class, () -> restaurantService.getRestaurant(ID));
         
         //then
-        assertThat(result.getMessage(), is(String.format("Restaurant with %s %s is not yours", "id", ID)));
+        assertThat(result.getMessage(), is("Restaurant is not yours"));
     }
     
     @Test
@@ -284,7 +359,7 @@ public class RestaurantServiceImplTest {
         final ForbiddenException result = assertThrows(ForbiddenException.class, () -> restaurantService.editRestaurant(ID, restaurantDTO));
         
         //then
-        assertThat(result.getMessage(), is(String.format("Restaurant with %s %s is not yours", "id", ID)));
+        assertThat(result.getMessage(), is("Restaurant is not yours"));
     }
     
     @Test
@@ -322,7 +397,7 @@ public class RestaurantServiceImplTest {
         final ForbiddenException result = assertThrows(ForbiddenException.class, () -> restaurantService.deleteRestaurant(ID));
         
         //then
-        assertThat(result.getMessage(), is(String.format("Restaurant with %s %s is not yours", "id", ID)));
+        assertThat(result.getMessage(), is("Restaurant is not yours"));
     }
     
     private RestaurantDTO getValidRestaurantDTO() {
@@ -330,7 +405,8 @@ public class RestaurantServiceImplTest {
         String restaurantName = "Test";
         String restaurantDescription = "Test desc";
         String restaurantPhoneNumber = "997998999";
-        return new RestaurantDTO(1L, restaurantName, restaurantDescription, addressDTO, restaurantPhoneNumber, Sets.newHashSet("tag"));
+        return new RestaurantDTO(1L, restaurantName, restaurantDescription, 3, addressDTO, restaurantPhoneNumber, Sets.newHashSet("tag"),
+                OPEN_HOUR_DTOS);
     }
     
 }

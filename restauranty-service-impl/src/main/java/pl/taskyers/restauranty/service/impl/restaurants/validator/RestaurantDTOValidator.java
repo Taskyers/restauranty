@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import pl.taskyers.restauranty.core.data.openhour.dto.OpenHourDTO;
 import pl.taskyers.restauranty.core.data.restaurants.dto.RestaurantDTO;
 import pl.taskyers.restauranty.core.messages.container.ValidationMessageContainer;
 import pl.taskyers.restauranty.core.utils.ValidationUtils;
 import pl.taskyers.restauranty.repository.restaurants.RestaurantRepository;
 import pl.taskyers.restauranty.service.impl.addresses.validator.AddressDTOValidator;
+import pl.taskyers.restauranty.service.impl.openhour.validator.OpenHourDTOValidator;
+
+import java.util.Set;
 
 import static pl.taskyers.restauranty.core.messages.MessageProvider.getMessage;
 import static pl.taskyers.restauranty.core.messages.enums.MessageCode.FIELD_EMPTY;
@@ -26,15 +30,21 @@ public class RestaurantDTOValidator {
     
     private static final String FIELD_PHONE_NUMBER = "phoneNumber";
     
+    private static final String CAPACITY = "capacity";
+    
     private final RestaurantRepository restaurantRepository;
     
     private final AddressDTOValidator addressDTOValidator;
+    
+    private final OpenHourDTOValidator openHourDTOValidator;
     
     public ValidationMessageContainer validate(RestaurantDTO restaurantDTO, boolean checkForDuplicates) {
         final ValidationMessageContainer validationMessageContainer = addressDTOValidator.validate(restaurantDTO.getAddress());
         validateName(restaurantDTO.getName(), validationMessageContainer, checkForDuplicates);
         validateDescription(restaurantDTO.getDescription(), validationMessageContainer);
         validatePhoneNumber(restaurantDTO.getPhoneNumber(), validationMessageContainer, checkForDuplicates);
+        validateCapacity(restaurantDTO.getCapacity(), validationMessageContainer);
+        validateOpenHours(restaurantDTO.getOpenHours(), validationMessageContainer);
         return validationMessageContainer;
     }
     
@@ -65,6 +75,18 @@ public class RestaurantDTOValidator {
             String message = getMessage(RESTAURANT_WITH_FIELD_EXISTS, phoneNumber, "phoneNumber");
             validationMessageContainer.addError(message, FIELD_PHONE_NUMBER);
             log.debug(message);
+        }
+    }
+    
+    private void validateCapacity(int capacity, ValidationMessageContainer validationMessageContainer) {
+        if ( capacity <= 0 ) {
+            validationMessageContainer.addError(getMessage(FIELD_INVALID_FORMAT, "capacity"), CAPACITY);
+        }
+    }
+    
+    private void validateOpenHours(Set<OpenHourDTO> openHourDTOS, ValidationMessageContainer validationMessageContainer) {
+        for ( OpenHourDTO openHourDTO : openHourDTOS ) {
+            openHourDTOValidator.validate(openHourDTO, validationMessageContainer);
         }
     }
     
