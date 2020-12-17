@@ -5,9 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.taskyers.restauranty.core.data.chat.dto.ChatMessageDTO;
 import pl.taskyers.restauranty.core.utils.DateUtils;
 import pl.taskyers.restauranty.service.chat.ChatMessageService;
@@ -29,7 +27,14 @@ public class ChatMessageController {
         chatMessageService.sendMessage(chatMessage);
         messagingTemplate.convertAndSendToUser(
                 chatMessage.getRecipient(), "/queue/messages",
-                new ChatMessageDTO(chatMessage.getAuthor(), chatMessage.getRecipient(), chatMessage.getContent(), DateUtils.parseStringDatetime(new Date())));
+                new ChatMessageDTO(chatMessage.getAuthor(), chatMessage.getRecipient(), chatMessage.getContent(),
+                        DateUtils.parseStringDatetime(new Date())));
+    }
+    
+    @PostMapping(ChatMessageService.CHAT_MESSAGE_PREFIX)
+    public ResponseEntity<ChatMessageDTO> saveMessage(@RequestBody ChatMessageDTO chatMessage) {
+        chatMessageService.sendMessage(chatMessage);
+        return ResponseEntity.ok(chatMessage);
     }
     
     @GetMapping(ChatMessageService.CHAT_MESSAGE_PREFIX + "/{recipient}/count")

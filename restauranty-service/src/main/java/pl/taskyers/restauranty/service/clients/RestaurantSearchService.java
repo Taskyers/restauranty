@@ -12,6 +12,8 @@ public interface RestaurantSearchService {
     
     String GET_RESTAURANTS_OPEN_HOURS = "/openHours/{restaurantName}";
     
+    String GET_RESTAURANT_OWNER = "/owner/{restaurantName}";
+    
     /**
      * Search for restaurants by name and tags. Following cases are covered:
      * <ol>
