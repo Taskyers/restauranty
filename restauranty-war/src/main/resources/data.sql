@@ -47,14 +47,14 @@ values ('token-test', 4);
 
 /* ADDRESSES */
 insert into public.address(street, zip_code, city, country)
-values ('Ulicowa 12', '23-023', 'Gdańsk', 'Polska');
+values ('Ulicowa 12', '23-023', 'Gdansk', 'Polska');
 
 /* RESTAURANTS */
-insert into public.restaurant(name, description,capacity ,address ,phone_number, owner)
-values ('Burgerownia', 'Burgerowania desc',15 ,1, 123123123, 4),
-       ('Pizzeria', 'Pizzeria desc', 15 ,1, 123321123, 4),
-       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc',15 ,1, 321123123, 4),
-       ('NoVerifiedTest', 'NoVerifiedTest desc',15 ,1, 321126123, 5);
+insert into public.restaurant(name, description, capacity, address, phone_number, owner)
+values ('Burgerownia', 'Burgerowania desc', 15, 1, 123123123, 4),
+       ('Pizzeria', 'Pizzeria desc', 15, 1, 123321123, 4),
+       ('PizzerioBurgerownia', 'PizzerioBurgerownia desc', 15, 1, 321123123, 4),
+       ('NoVerifiedTest', 'NoVerifiedTest desc', 15, 1, 321126123, 5);
 
 /* TAGS */
 insert into public.tag(value)
@@ -73,6 +73,24 @@ values (1, 1),
        (3, 4),
        (4, 2),
        (4, 4);
+
+/* RESTAURANT IMAGES */
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (true, '475905.jpg', 'C:\workspace\images\475905.jpg', 214541, 'image/jpeg', 1);
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (false, 'divinity-original-sin-2-mage-video-game-1320.jpg',
+        'C:\workspace\images\divinity-original-sin-2-mage-video-game-1320.jpg', 1010008, 'image/jpeg', 1);
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (true, '816923.png', 'C:\workspace\images\816923.png', 1601550, 'image/png', 2);
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (false,
+        'Konachan.com - 117037 brown_hair flowers forest keishi long_hair original photoshop scenic sky space stars tree.png',
+        'C:\workspace\images\Konachan.com - 117037 brown_hair flowers forest keishi long_hair original photoshop scenic sky space stars tree.png',
+        8288608, 'image/png', 2);
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (false, '739010.jpg', 'C:\workspace\images\739010.jpg', 1036375, 'image/jpeg', 3);
+INSERT INTO public.restaurant_image (main, name, path, size, type, restaurant)
+VALUES (true, '74htem6e65g51.png', 'C:\workspace\images\74htem6e65g51.png', 6067425, 'image/png', 3);
 
 /* REVIEWS */
 insert into public.review("user", restaurant, content, rate)
@@ -132,7 +150,7 @@ values (1, 1),
        (1, 14);
 
 /* OPEN HOURS */
-insert into  public.open_hour( open_time, day_of_week, close_time ,restaurant)
+insert into public.open_hour(open_time, day_of_week, close_time, restaurant)
 values ('15:00'::time, 1, '19:00'::time, 1),
        ('15:00'::time, 1, '19:00'::time, 2),
        ('11:00'::time, 1, '19:00'::time, 3),
@@ -144,7 +162,7 @@ values ('15:00'::time, 1, '19:00'::time, 1),
        ('15:00'::time, 2, '19:00'::time, 3);
 
 /* RESERVATION */
-insert into public.reservation(persons_count, reservation_date,  reservation_time, status, client, restaurant)
+insert into public.reservation(persons_count, reservation_date, reservation_time, status, client, restaurant)
 values (2, '01-02-2021'::date, '12:30'::time, 'ACCEPTED', 2, 1),
        (2, '02-02-2021'::date, '12:30'::time, 'ACCEPTED', 2, 2),
        (2, '03-02-2021'::date, '12:30'::time, 'REJECTED', 2, 1),

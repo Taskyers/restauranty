@@ -13,8 +13,6 @@ public abstract class BadRequestException extends RuntimeException implements Er
     
     private static final long serialVersionUID = -7617832958211047285L;
     
-    public static String MESSAGE = "Bad request";
-    
     protected List<Message> messages;
     
     @Override

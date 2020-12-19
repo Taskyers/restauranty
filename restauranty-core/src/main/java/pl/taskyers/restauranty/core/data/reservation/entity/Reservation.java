@@ -3,6 +3,8 @@ package pl.taskyers.restauranty.core.data.reservation.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import pl.taskyers.restauranty.core.data.reservation.enums.ReservationStatus;
 import pl.taskyers.restauranty.core.data.restaurants.entity.Restaurant;
 import pl.taskyers.restauranty.core.data.users.entity.UserClient;
@@ -25,11 +27,11 @@ public class Reservation implements Serializable {
     
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    Date reservationDate;
+    private Date reservationDate;
     
     @Column(nullable = false)
     @Temporal(TemporalType.TIME)
-    Date reservationTime;
+    private Date reservationTime;
     
     @Column(nullable = false)
     private int personsCount;
@@ -43,6 +45,7 @@ public class Reservation implements Serializable {
     private UserClient client;
     
     @ManyToOne(targetEntity = Restaurant.class)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "restaurant")
     private Restaurant restaurant;
 }
